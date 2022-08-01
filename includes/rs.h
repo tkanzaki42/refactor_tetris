@@ -3,6 +3,6 @@
 
 #include "tetris.h"
 
-void FunctionRS(Struct shape);
+void rotate_shape(Struct shape);
 
 #endif

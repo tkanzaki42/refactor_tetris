@@ -90,9 +90,9 @@ void reflect_key_input(int c, int *final, char Table[R][C], char *GameOn, suseco
 				current.col--;
 			break;
 		case 'w':
-			FunctionRS(temp);
+			rotate_shape(temp);
 			if(FunctionCP(temp, Table))
-				FunctionRS(current);
+				rotate_shape(current);
 			break;
 	}
 	delete_shape(temp);
