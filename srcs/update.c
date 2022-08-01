@@ -6,7 +6,7 @@ void update_key_input(int c, t_game_info *gameinfo, suseconds_t *timer, int *dec
 	t_shape temp = duplicate_shape(gameinfo->current_shape);
 	switch(c){
 		case INPUTKEY_DOWN:
-			print_shape_moved_down(gameinfo, timer, decrease, true);
+			move_shape_down(gameinfo, timer, decrease, true);
 			break;
 		case INPUTKEY_RIGHT:
 			temp.col++;
@@ -29,6 +29,6 @@ void update_key_input(int c, t_game_info *gameinfo, suseconds_t *timer, int *dec
 }
 
 void update_screen(t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
-	print_shape_moved_down(gameinfo, timer, decrease, false);
+	move_shape_down(gameinfo, timer, decrease, false);
 	print_table(gameinfo);
 }
