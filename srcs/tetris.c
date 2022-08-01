@@ -65,9 +65,8 @@ void reflect_key_input(int c, t_game_info *gameinfo, suseconds_t *timer, int *de
 				copy_shape_on_buffer(gameinfo, gameinfo->table_game);
 				int count = check_line_deletion(gameinfo, timer, decrease);
 				gameinfo->score += 100*count;
-				t_shape new_shape = create_random_shape();
 				delete_shape(gameinfo->current_shape);
-				gameinfo->current_shape = new_shape;
+				gameinfo->current_shape = create_random_shape();
 				if(!check_puttable(gameinfo->current_shape, gameinfo->table_game)){
 					gameinfo->is_continue_game = false;
 				}
@@ -108,9 +107,8 @@ void update_screen(t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
 			}
 		}
 		check_line_deletion(gameinfo, timer, decrease);
-		t_shape new_shape = create_random_shape();
 		delete_shape(gameinfo->current_shape);
-		gameinfo->current_shape = new_shape;
+		gameinfo->current_shape = create_random_shape();
 		if(!check_puttable(gameinfo->current_shape, gameinfo->table_game)){
 			gameinfo->is_continue_game = false;
 		}
