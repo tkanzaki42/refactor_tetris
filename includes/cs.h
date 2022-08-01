@@ -3,6 +3,6 @@
 
 #include "tetris.h"
 
-Struct FunctionCS(Struct shape);
+Struct create_shape(Struct shape);
 
 #endif
