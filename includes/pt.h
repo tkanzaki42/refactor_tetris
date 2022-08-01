@@ -3,7 +3,7 @@
 
 #include "tetris.h"
 
-void copy_shape_on_table(char Buffer[TABLE_ROW][TABLE_COL]);
-void print_table(const int final, const char Table[TABLE_ROW][TABLE_COL]);
+void copy_shape_on_buffer(t_game_info *gameinfo, char Buffer[TABLE_ROW][TABLE_COL]);
+void print_table(t_game_info *gameinfo);
 
 #endif
