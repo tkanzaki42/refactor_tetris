@@ -7,176 +7,132 @@
 #include "hastoupdate.h"
 #include "settimeout.h"
 
-const Struct StructsArray[7]= {
-	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3, 0, 0},
-	{(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3, 0, 0},
-	{(char *[]){(char []){0,1,0},(char []){1,1,1}, (char []){0,0,0}}, 3, 0, 0},
-	{(char *[]){(char []){0,0,1},(char []){1,1,1}, (char []){0,0,0}}, 3, 0, 0},
-	{(char *[]){(char []){1,0,0},(char []){1,1,1}, (char []){0,0,0}}, 3, 0, 0},
-	{(char *[]){(char []){1,1},(char []){1,1}}, 2, 0, 0},
-	{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4, 0, 0}
-};
+void init_gameinfo_struct(t_game_info *gameinfo) {
+	gameinfo->score = 0;
+	for(int i = 0; i < TABLE_ROW; ++i)
+		for(int j = 0; j < TABLE_COL; ++j)
+			gameinfo->table_game[i][j] = 0;
+	gameinfo->is_continue_game = true;
+	gameinfo->current_shape.side_length = 0;
+	gameinfo->current_shape.row = 0;
+	gameinfo->current_shape.col = 0;
+	gameinfo->current_shape.table_shape = NULL;
+	replace_shape(gameinfo);
+}
 
-struct timeval before_now, now;
-
-void game_init() {
+void init_game(t_game_info *gameinfo) {
     srand(time(0));
     initscr();
 	gettimeofday(&before_now, NULL);
 	set_timeout(1);
+	init_gameinfo_struct(gameinfo);
 }
 
-Struct create_new_shape() {
-	Struct new_shape;
+int check_line_deletion(t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
+	int count = 0;
 
-	new_shape = create_shape(StructsArray[rand()%7]);
-    new_shape.col = rand()%(C-new_shape.width+1);
-    new_shape.row = 0;
-    delete_shape(current);
-	return (new_shape);
-}
-
-void reflect_key_input(int c, int *final, char Table[R][C], char *GameOn, suseconds_t *timer, int *decrease) {
-	Struct temp = create_shape(current);
-	switch(c){
-		case 's':
-			temp.row++;  //move down
-			if(check_puttable(temp, Table))
-				current.row++;
-			else {
-				copy_shape_on_table(Table);
-				int n, m, sum, count=0;
-				for(n=0;n<R;n++){
-					sum = 0;
-					for(m=0;m< C;m++) {
-						sum+=Table[n][m];
-					}
-					if(sum==C){
-						count++;
-						int l, k;
-						for(k = n;k >=1;k--)
-							for(l=0;l<C;l++)
-								Table[k][l]=Table[k-1][l];
-						for(l=0;l<C;l++)
-							Table[k][l]=0;
-						*timer-=(*decrease)--;
-					}
-				}
-				*final += 100*count;
-				Struct new_shape = create_shape(StructsArray[rand()%7]);
-				new_shape.col = rand()%(C-new_shape.width+1);
-				new_shape.row = 0;
-				delete_shape(current);
-				current = new_shape;
-				if(!check_puttable(current, Table)){
-					*GameOn = F;
-				}
-			}
-			break;
-		case 'd':
-			temp.col++;
-			if(check_puttable(temp, Table))
-				current.col++;
-			break;
-		case 'a':
-			temp.col--;
-			if(check_puttable(temp, Table))
-				current.col--;
-			break;
-		case 'w':
-			rotate_shape(temp);
-			if(check_puttable(temp, Table))
-				rotate_shape(current);
-			break;
+	for(int n = 0; n < TABLE_ROW; ++n){
+		int sum = 0;
+		for(int m = 0; m < TABLE_COL; ++m) {
+			sum += gameinfo->table_game[n][m];
+		}
+		if(sum == TABLE_COL){
+			count++;
+			for(int k = n; k >=1; k--)
+				for(int l = 0; l < TABLE_COL; ++l)
+					gameinfo->table_game[k][l]=gameinfo->table_game[k-1][l];
+			for(int l = 0; l < TABLE_COL; ++l)
+				gameinfo->table_game[0][l] = 0;
+			*timer-=(*decrease)--;
+		}
 	}
-	delete_shape(temp);
-	print_table(*final, Table);
+	return count;
 }
 
-void update_screen(const int final, char Table[R][C], char *GameOn, suseconds_t *timer, int *decrease) {
-	Struct temp = create_shape(current);
+void move_shape_down(t_game_info *gameinfo, suseconds_t *timer, int *decrease, bool add_bonus) {
+	t_shape temp = duplicate_shape(gameinfo->current_shape);
 	temp.row++;
-	if(check_puttable(temp, Table))
-		current.row++;
+	if(check_puttable(temp, gameinfo->table_game))
+		gameinfo->current_shape.row++;
 	else {
-		int i, j;
-		for(i = 0; i < current.width ;i++){
-			for(j = 0; j < current.width ; j++){
-				if(current.array[i][j])
-					Table[current.row+i][current.col+j] = current.array[i][j];
-			}
-		}
-		int n, m, sum, count=0;
-		for(n=0;n<R;n++){
-			sum = 0;
-			for(m=0;m< C;m++) {
-				sum+=Table[n][m];
-			}
-			if(sum==C){
-				count++;
-				int l, k;
-				for(k = n;k >=1;k--)
-					for(l=0;l<C;l++)
-						Table[k][l]=Table[k-1][l];
-				for(l=0;l<C;l++)
-					Table[k][l]=0;
-				*timer-=(*decrease)--;
-			}
-		}
-		Struct new_shape = create_shape(StructsArray[rand()%7]);
-		new_shape.col = rand()%(C-new_shape.width+1);
-		new_shape.row = 0;
-		delete_shape(current);
-		current = new_shape;
-		if(!check_puttable(current, Table)){
-			*GameOn = F;
-		}
+		copy_shape_on_buffer(gameinfo, gameinfo->table_game);
+		int bonus_score = check_line_deletion(gameinfo, timer, decrease);
+		if (add_bonus)
+			gameinfo->score += 100 * bonus_score;
+		replace_shape(gameinfo);
 	}
 	delete_shape(temp);
-	print_table(final, Table);
+}
+
+void reflect_key_input(int c, t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
+	t_shape temp = duplicate_shape(gameinfo->current_shape);
+	switch(c){
+		case INPUTKEY_DOWN:
+			move_shape_down(gameinfo, timer, decrease, true);
+			break;
+		case INPUTKEY_RIGHT:
+			temp.col++;
+			if(check_puttable(temp, gameinfo->table_game))
+				gameinfo->current_shape.col++;
+			break;
+		case INPUTKEY_LEFT:
+			temp.col--;
+			if(check_puttable(temp, gameinfo->table_game))
+				gameinfo->current_shape.col--;
+			break;
+		case INPUTKEY_ROTATE:
+			rotate_shape(temp);
+			if(check_puttable(temp, gameinfo->table_game))
+				rotate_shape(gameinfo->current_shape);
+			break;
+	}
+	delete_shape(temp);
+	print_table(gameinfo);
+}
+
+void update_screen(t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
+	move_shape_down(gameinfo, timer, decrease, false);
+	print_table(gameinfo);
 	gettimeofday(&before_now, NULL);
 }
 
-void play_game(int *final, char Table[R][C], char *GameOn) {
+void play_game(t_game_info *gameinfo) {
     int c;
 	suseconds_t timer = 400000;
 	int decrease = 1000;
 
-	while(*GameOn){
+	while(gameinfo->is_continue_game){
 		if ((c = getch()) != ERR)
-			reflect_key_input(c, final, Table, GameOn, &timer, &decrease);
+			reflect_key_input(c, gameinfo, &timer, &decrease);
 		gettimeofday(&now, NULL);
 		if (hasToUpdate(&timer))
-			update_screen(*final, Table, GameOn, &timer, &decrease);
+			update_screen(gameinfo, &timer, &decrease);
 	}
 }
 
-void print_gameend_screen(const int final, const char Table[R][C]) {
-	int i, j;
-
-	for(i = 0; i < R ;i++){
-		for(j = 0; j < C ; j++){
-			printf("%c ", Table[i][j] ? '#': '.');
+void print_gameend_screen(t_game_info *gameinfo) {
+	for(int i = 0; i < TABLE_ROW; ++i){
+		for(int j = 0; j < TABLE_COL; ++j){
+			printf("%c ", gameinfo->table_game[i][j] ? '#': '.');
 		}
 		printf("\n");
 	}
 	printf("\nGame over!\n");
-	printf("\nScore: %d\n", final);
+	printf("\nScore: %d\n", gameinfo->score);
+}
+
+void finalize_game(t_game_info *gameinfo) {
+	delete_shape(gameinfo->current_shape);
+	endwin();
+	print_gameend_screen(gameinfo);
 }
 
 int main() {
-	int final = 0;
-	char Table[R][C] = {0};
-	char GameOn = T;
-	game_init();
-	current = create_new_shape();
-	if(!check_puttable(current, Table)){
-		GameOn = F;
-	}
-	print_table(final, Table);
-	play_game(&final, Table, &GameOn);
-	delete_shape(current);
-	endwin();
-	print_gameend_screen(final, Table);
+	t_game_info	gameinfo;
+
+	init_game(&gameinfo);
+	print_table(&gameinfo);
+	play_game(&gameinfo);
+	finalize_game(&gameinfo);
 	return 0;
 }

@@ -1,27 +1,28 @@
 #include "pt.h"
 
-void copy_shape_on_table(char Buffer[R][C]) {
-	for(int i = 0; i < current.width; ++i){
-		for(int j = 0; j < current.width; ++j){
-			if(current.array[i][j])
-				Buffer[current.row + i][current.col + j] = current.array[i][j];
+void copy_shape_on_buffer(t_game_info *gameinfo, char Buffer[TABLE_ROW][TABLE_COL]) {
+	for(int i = 0; i < gameinfo->current_shape.side_length; ++i){
+		for(int j = 0; j < gameinfo->current_shape.side_length; ++j){
+			if(gameinfo->current_shape.table_shape[i][j])
+				Buffer[gameinfo->current_shape.row + i][gameinfo->current_shape.col + j]
+					= gameinfo->current_shape.table_shape[i][j];
 		}
 	}
 }
 
-void print_table(const int final, const char Table[R][C]){
-	char Buffer[R][C] = {0};
+void print_table(t_game_info *gameinfo) {
+	char Buffer[TABLE_ROW][TABLE_COL] = {0};
 
-	copy_shape_on_table(Buffer);
+	copy_shape_on_buffer(gameinfo, Buffer);
 	clear();
-	for(int i=0; i<C-9; i++)
+	for (int i = 0; i < TABLE_COL - 9; ++i)
 		printw(" ");
 	printw("42 Tetris\n");
-	for(int i = 0; i < R ;i++){
-		for(int j = 0; j < C ; j++){
-			printw("%c ", (Table[i][j] + Buffer[i][j])? '#': '.');
+	for (int i = 0; i < TABLE_ROW; ++i) {
+		for (int j = 0; j < TABLE_COL; ++j){
+			printw("%c ", (gameinfo->table_game[i][j] + Buffer[i][j])? '#': '.');
 		}
 		printw("\n");
 	}
-	printw("\nScore: %d\n", final);
+	printw("\nScore: %d\n", gameinfo->score);
 }
