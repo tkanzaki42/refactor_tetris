@@ -49,19 +49,26 @@ int check_line_deletion(t_game_info *gameinfo, suseconds_t *timer, int *decrease
 	return count;
 }
 
+void move_shape_down(t_game_info *gameinfo, suseconds_t *timer, int *decrease, bool add_bonus) {
+	t_shape temp = duplicate_shape(gameinfo->current_shape);
+	temp.row++;
+	if(check_puttable(temp, gameinfo->table_game))
+		gameinfo->current_shape.row++;
+	else {
+		copy_shape_on_buffer(gameinfo, gameinfo->table_game);
+		int bonus_score = check_line_deletion(gameinfo, timer, decrease);
+		if (add_bonus)
+			gameinfo->score += 100 * bonus_score;
+		replace_shape(gameinfo);
+	}
+	delete_shape(temp);
+}
+
 void reflect_key_input(int c, t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
 	t_shape temp = duplicate_shape(gameinfo->current_shape);
 	switch(c){
 		case INPUTKEY_DOWN:
-			temp.row++;  //move down
-			if(check_puttable(temp, gameinfo->table_game))
-				gameinfo->current_shape.row++;
-			else {
-				copy_shape_on_buffer(gameinfo, gameinfo->table_game);
-				int bonus_score = check_line_deletion(gameinfo, timer, decrease);
-				gameinfo->score += 100 * bonus_score;
-				replace_shape(gameinfo);
-			}
+			move_shape_down(gameinfo, timer, decrease, true);
 			break;
 		case INPUTKEY_RIGHT:
 			temp.col++;
@@ -84,16 +91,7 @@ void reflect_key_input(int c, t_game_info *gameinfo, suseconds_t *timer, int *de
 }
 
 void update_screen(t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
-	t_shape temp = duplicate_shape(gameinfo->current_shape);
-	temp.row++;
-	if(check_puttable(temp, gameinfo->table_game))
-		gameinfo->current_shape.row++;
-	else {
-		copy_shape_on_buffer(gameinfo, gameinfo->table_game);
-		check_line_deletion(gameinfo, timer, decrease);
-		replace_shape(gameinfo);
-	}
-	delete_shape(temp);
+	move_shape_down(gameinfo, timer, decrease, false);
 	print_table(gameinfo);
 	gettimeofday(&before_now, NULL);
 }
