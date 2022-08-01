@@ -33,6 +33,27 @@ void init_game(t_game_info *gameinfo) {
 	}
 }
 
+int check_line_deletion(t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
+	int n, m, sum, count=0;
+	for(n = 0; n < TABLE_ROW; ++n){
+		sum = 0;
+		for(m = 0; m < TABLE_COL; ++m) {
+			sum += gameinfo->table_game[n][m];
+		}
+		if(sum == TABLE_COL){
+			count++;
+			int l, k;
+			for(k = n;k >=1;k--)
+				for(l = 0; l < TABLE_COL; ++l)
+					gameinfo->table_game[k][l]=gameinfo->table_game[k-1][l];
+			for(l = 0; l < TABLE_COL; ++l)
+				gameinfo->table_game[k][l]=0;
+			*timer-=(*decrease)--;
+		}
+	}
+	return count;
+}
+
 void reflect_key_input(int c, t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
 	t_shape temp = create_shape(gameinfo->current_shape);
 	switch(c){
@@ -42,23 +63,7 @@ void reflect_key_input(int c, t_game_info *gameinfo, suseconds_t *timer, int *de
 				gameinfo->current_shape.row++;
 			else {
 				copy_shape_on_buffer(gameinfo, gameinfo->table_game);
-				int n, m, sum, count=0;
-				for(n = 0; n < TABLE_ROW; ++n){
-					sum = 0;
-					for(m = 0; m < TABLE_COL; ++m) {
-						sum += gameinfo->table_game[n][m];
-					}
-					if(sum == TABLE_COL){
-						count++;
-						int l, k;
-						for(k = n;k >=1;k--)
-							for(l = 0; l < TABLE_COL; ++l)
-								gameinfo->table_game[k][l]=gameinfo->table_game[k-1][l];
-						for(l = 0; l < TABLE_COL; ++l)
-							gameinfo->table_game[k][l]=0;
-						*timer-=(*decrease)--;
-					}
-				}
+				int count = check_line_deletion(gameinfo, timer, decrease);
 				gameinfo->score += 100*count;
 				t_shape new_shape = create_random_shape();
 				delete_shape(gameinfo->current_shape);
@@ -102,23 +107,7 @@ void update_screen(t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
 						= gameinfo->current_shape.table_shape[i][j];
 			}
 		}
-		int n, m, sum, count=0;
-		for(n = 0; n < TABLE_ROW; ++n){
-			sum = 0;
-			for(m = 0; m < TABLE_COL; ++m) {
-				sum+=gameinfo->table_game[n][m];
-			}
-			if(sum == TABLE_COL){
-				count++;
-				int l, k;
-				for(k = n;k >=1;k--)
-					for(l = 0; l < TABLE_COL; ++l)
-						gameinfo->table_game[k][l]=gameinfo->table_game[k-1][l];
-				for(l = 0; l < TABLE_COL; ++l)
-					gameinfo->table_game[k][l]=0;
-				*timer-=(*decrease)--;
-			}
-		}
+		check_line_deletion(gameinfo, timer, decrease);
 		t_shape new_shape = create_random_shape();
 		delete_shape(gameinfo->current_shape);
 		gameinfo->current_shape = new_shape;
