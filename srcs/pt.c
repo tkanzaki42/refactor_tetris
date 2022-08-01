@@ -1,8 +1,8 @@
 #include "pt.h"
 
 void copy_shape_on_buffer(t_game_info *gameinfo, char Buffer[TABLE_ROW][TABLE_COL]) {
-	for(int i = 0; i < gameinfo->current_shape.position_col; ++i){
-		for(int j = 0; j < gameinfo->current_shape.position_col; ++j){
+	for(int i = 0; i < gameinfo->current_shape.side_length; ++i){
+		for(int j = 0; j < gameinfo->current_shape.side_length; ++j){
 			if(gameinfo->current_shape.table_shape[i][j])
 				Buffer[gameinfo->current_shape.row + i][gameinfo->current_shape.col + j]
 					= gameinfo->current_shape.table_shape[i][j];

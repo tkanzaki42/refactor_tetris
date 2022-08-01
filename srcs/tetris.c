@@ -13,7 +13,7 @@ void init_gameinfo_struct(t_game_info *gameinfo) {
 		for(int j = 0; j < TABLE_COL; ++j)
 			gameinfo->table_game[i][j] = 0;
 	gameinfo->is_continue_game = true;
-	gameinfo->current_shape.position_col = 0;
+	gameinfo->current_shape.side_length = 0;
 	gameinfo->current_shape.row = 0;
 	gameinfo->current_shape.col = 0;
 	gameinfo->current_shape.table_shape = NULL;
@@ -89,8 +89,8 @@ void update_screen(t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
 	if(check_puttable(temp, gameinfo->table_game))
 		gameinfo->current_shape.row++;
 	else {
-		for(int i = 0; i < gameinfo->current_shape.position_col ;i++){
-			for(int j = 0; j < gameinfo->current_shape.position_col ; j++){
+		for(int i = 0; i < gameinfo->current_shape.side_length ;i++){
+			for(int j = 0; j < gameinfo->current_shape.side_length ; j++){
 				if(gameinfo->current_shape.table_shape[i][j])
 					gameinfo->table_game[gameinfo->current_shape.row + i][gameinfo->current_shape.col + j]
 						= gameinfo->current_shape.table_shape[i][j];

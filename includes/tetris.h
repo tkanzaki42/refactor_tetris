@@ -18,7 +18,7 @@
 
 typedef struct {
 	char	**table_shape;
-	int		position_col;
+	int		side_length;  // side length of a square which can store the sphere
 	int		row;
 	int		col;
 } t_shape;
