@@ -1,6 +1,6 @@
 #include "cs.h"
 
-Struct FunctionCS(Struct shape){
+Struct create_shape(Struct shape){
 	Struct new_shape = shape;
 	char **copyshape = shape.array;
 	new_shape.array = (char**)malloc(new_shape.width*sizeof(char*));

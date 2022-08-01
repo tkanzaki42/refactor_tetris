@@ -8,13 +8,13 @@
 #include "settimeout.h"
 
 const Struct StructsArray[7]= {
-	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){0,1,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){0,0,1},(char []){1,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){1,0,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){1,1},(char []){1,1}}, 2},
-	{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4}
+	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3, 0, 0},
+	{(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3, 0, 0},
+	{(char *[]){(char []){0,1,0},(char []){1,1,1}, (char []){0,0,0}}, 3, 0, 0},
+	{(char *[]){(char []){0,0,1},(char []){1,1,1}, (char []){0,0,0}}, 3, 0, 0},
+	{(char *[]){(char []){1,0,0},(char []){1,1,1}, (char []){0,0,0}}, 3, 0, 0},
+	{(char *[]){(char []){1,1},(char []){1,1}}, 2, 0, 0},
+	{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4, 0, 0}
 };
 
 struct timeval before_now, now;
@@ -29,28 +29,22 @@ void game_init() {
 Struct create_new_shape() {
 	Struct new_shape;
 
-	new_shape = FunctionCS(StructsArray[rand()%7]);
+	new_shape = create_shape(StructsArray[rand()%7]);
     new_shape.col = rand()%(C-new_shape.width+1);
     new_shape.row = 0;
-    FunctionDS(current);
+    delete_shape(current);
 	return (new_shape);
 }
 
 void reflect_key_input(int c, int *final, char Table[R][C], char *GameOn, suseconds_t *timer, int *decrease) {
-	Struct temp = FunctionCS(current);
+	Struct temp = create_shape(current);
 	switch(c){
 		case 's':
 			temp.row++;  //move down
-			if(FunctionCP(temp, Table))
+			if(check_puttable(temp, Table))
 				current.row++;
 			else {
-				int i, j;
-				for(i = 0; i < current.width ;i++){
-					for(j = 0; j < current.width ; j++){
-						if(current.array[i][j])
-							Table[current.row+i][current.col+j] = current.array[i][j];
-					}
-				}
+				copy_shape_on_table(Table);
 				int n, m, sum, count=0;
 				for(n=0;n<R;n++){
 					sum = 0;
@@ -69,40 +63,40 @@ void reflect_key_input(int c, int *final, char Table[R][C], char *GameOn, suseco
 					}
 				}
 				*final += 100*count;
-				Struct new_shape = FunctionCS(StructsArray[rand()%7]);
+				Struct new_shape = create_shape(StructsArray[rand()%7]);
 				new_shape.col = rand()%(C-new_shape.width+1);
 				new_shape.row = 0;
-				FunctionDS(current);
+				delete_shape(current);
 				current = new_shape;
-				if(!FunctionCP(current, Table)){
+				if(!check_puttable(current, Table)){
 					*GameOn = F;
 				}
 			}
 			break;
 		case 'd':
 			temp.col++;
-			if(FunctionCP(temp, Table))
+			if(check_puttable(temp, Table))
 				current.col++;
 			break;
 		case 'a':
 			temp.col--;
-			if(FunctionCP(temp, Table))
+			if(check_puttable(temp, Table))
 				current.col--;
 			break;
 		case 'w':
-			FunctionRS(temp);
-			if(FunctionCP(temp, Table))
-				FunctionRS(current);
+			rotate_shape(temp);
+			if(check_puttable(temp, Table))
+				rotate_shape(current);
 			break;
 	}
-	FunctionDS(temp);
-	FunctionPT(*final, Table);
+	delete_shape(temp);
+	print_table(*final, Table);
 }
 
 void update_screen(const int final, char Table[R][C], char *GameOn, suseconds_t *timer, int *decrease) {
-	Struct temp = FunctionCS(current);
+	Struct temp = create_shape(current);
 	temp.row++;
-	if(FunctionCP(temp, Table))
+	if(check_puttable(temp, Table))
 		current.row++;
 	else {
 		int i, j;
@@ -129,17 +123,17 @@ void update_screen(const int final, char Table[R][C], char *GameOn, suseconds_t 
 				*timer-=(*decrease)--;
 			}
 		}
-		Struct new_shape = FunctionCS(StructsArray[rand()%7]);
+		Struct new_shape = create_shape(StructsArray[rand()%7]);
 		new_shape.col = rand()%(C-new_shape.width+1);
 		new_shape.row = 0;
-		FunctionDS(current);
+		delete_shape(current);
 		current = new_shape;
-		if(!FunctionCP(current, Table)){
+		if(!check_puttable(current, Table)){
 			*GameOn = F;
 		}
 	}
-	FunctionDS(temp);
-	FunctionPT(final, Table);
+	delete_shape(temp);
+	print_table(final, Table);
 	gettimeofday(&before_now, NULL);
 }
 
@@ -176,13 +170,13 @@ int main() {
 	char GameOn = T;
 	game_init();
 	current = create_new_shape();
-	if(!FunctionCP(current, Table)){
+	if(!check_puttable(current, Table)){
 		GameOn = F;
 	}
-    FunctionPT(final, Table);
+	print_table(final, Table);
 	play_game(&final, Table, &GameOn);
-	FunctionDS(current);
+	delete_shape(current);
 	endwin();
 	print_gameend_screen(final, Table);
-    return 0;
+	return 0;
 }
