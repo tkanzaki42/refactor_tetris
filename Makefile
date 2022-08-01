@@ -26,9 +26,8 @@ $(TARGET): $(OBJS)
 
 .PHONY: debug
 debug:
-	$(CFLAGS) += $(DBGFLAG)
-	@make all
-#	$(CC) $(CFLAGS) $(DBGFLAG) $(INCLUDE) $(SRCS) -o $(TARGET)
+	rm -f $(TARGET)
+	$(CC) $(CFLAGS) $(DBGFLAG) $(SRCS) $(INCLUDE) -lncurses -o $(TARGET)
 
 .PHONY: clean
 clean:
