@@ -3,6 +3,6 @@
 
 #include "tetris.h"
 
-int check_puttable(Struct shape, const char Table[R][C]);
+bool check_puttable(t_shape shape, const char Table[TABLE_ROW][TABLE_COL]);
 
 #endif

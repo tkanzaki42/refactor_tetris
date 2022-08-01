@@ -3,6 +3,6 @@
 
 #include "tetris.h"
 
-void delete_shape(Struct shape);
+void delete_shape(t_shape shape);
 
 #endif
