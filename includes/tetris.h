@@ -30,4 +30,6 @@ typedef struct {
 	bool	is_continue_game;
 } t_game_info;
 
+struct timeval before_now, now;
+
 #endif

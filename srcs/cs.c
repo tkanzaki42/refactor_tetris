@@ -1,4 +1,6 @@
 #include "cs.h"
+#include "ds.h"
+#include "cp.h"
 
 t_shape create_random_shape() {
 	const t_shape shape_list[7] = {
@@ -30,4 +32,12 @@ t_shape duplicate_shape(t_shape shape){
 		}
     }
     return new_shape;
+}
+
+void replace_shape(t_game_info *gameinfo) {
+	delete_shape(gameinfo->current_shape);
+	gameinfo->current_shape = create_random_shape();
+	if(!check_puttable(gameinfo->current_shape, gameinfo->table_game)){
+		gameinfo->is_continue_game = false;
+	}
 }

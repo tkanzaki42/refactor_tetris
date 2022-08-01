@@ -7,8 +7,6 @@
 #include "hastoupdate.h"
 #include "settimeout.h"
 
-struct timeval before_now, now;
-
 void init_gameinfo_struct(t_game_info *gameinfo) {
 	gameinfo->score = 0;
 	for(int i = 0; i < TABLE_ROW; ++i)
@@ -19,7 +17,7 @@ void init_gameinfo_struct(t_game_info *gameinfo) {
 	gameinfo->current_shape.row = 0;
 	gameinfo->current_shape.col = 0;
 	gameinfo->current_shape.table_shape = NULL;
-	gameinfo->current_shape = create_random_shape();
+	replace_shape(gameinfo);
 }
 
 void init_game(t_game_info *gameinfo) {
@@ -28,9 +26,6 @@ void init_game(t_game_info *gameinfo) {
 	gettimeofday(&before_now, NULL);
 	set_timeout(1);
 	init_gameinfo_struct(gameinfo);
-	if(!check_puttable(gameinfo->current_shape, gameinfo->table_game)) {
-		gameinfo->is_continue_game = false;
-	}
 }
 
 int check_line_deletion(t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
@@ -66,11 +61,7 @@ void reflect_key_input(int c, t_game_info *gameinfo, suseconds_t *timer, int *de
 				copy_shape_on_buffer(gameinfo, gameinfo->table_game);
 				int count = check_line_deletion(gameinfo, timer, decrease);
 				gameinfo->score += 100*count;
-				delete_shape(gameinfo->current_shape);
-				gameinfo->current_shape = create_random_shape();
-				if(!check_puttable(gameinfo->current_shape, gameinfo->table_game)){
-					gameinfo->is_continue_game = false;
-				}
+				replace_shape(gameinfo);
 			}
 			break;
 		case INPUTKEY_RIGHT:
@@ -107,11 +98,7 @@ void update_screen(t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
 			}
 		}
 		check_line_deletion(gameinfo, timer, decrease);
-		delete_shape(gameinfo->current_shape);
-		gameinfo->current_shape = create_random_shape();
-		if(!check_puttable(gameinfo->current_shape, gameinfo->table_game)){
-			gameinfo->is_continue_game = false;
-		}
+		replace_shape(gameinfo);
 	}
 	delete_shape(temp);
 	print_table(gameinfo);
