@@ -3,9 +3,6 @@
 
 #include "tetris.h"
 
-extern char Table[R][C];
-extern int final;
-
-void FunctionPT();
+void FunctionPT(const int final, const char Table[R][C]);
 
 #endif

@@ -3,6 +3,6 @@
 
 #include "tetris.h"
 
-int hasToUpdate();
+int hasToUpdate(const suseconds_t *timer);
 
 #endif

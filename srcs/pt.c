@@ -1,6 +1,6 @@
 #include "pt.h"
 
-void FunctionPT(){
+void FunctionPT(const int final, const char Table[R][C]){
 	char Buffer[R][C] = {0};
 	int i, j;
 	for(i = 0; i < current.width ;i++){
