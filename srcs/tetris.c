@@ -7,16 +7,6 @@
 #include "hastoupdate.h"
 #include "settimeout.h"
 
-const Struct StructsArray[7]= {
-	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3, 0, 0},
-	{(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3, 0, 0},
-	{(char *[]){(char []){0,1,0},(char []){1,1,1}, (char []){0,0,0}}, 3, 0, 0},
-	{(char *[]){(char []){0,0,1},(char []){1,1,1}, (char []){0,0,0}}, 3, 0, 0},
-	{(char *[]){(char []){1,0,0},(char []){1,1,1}, (char []){0,0,0}}, 3, 0, 0},
-	{(char *[]){(char []){1,1},(char []){1,1}}, 2, 0, 0},
-	{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4, 0, 0}
-};
-
 struct timeval before_now, now;
 
 void game_init() {
@@ -29,7 +19,7 @@ void game_init() {
 Struct create_new_shape() {
 	Struct new_shape;
 
-	new_shape = create_shape(StructsArray[rand()%7]);
+	new_shape = create_random_shape();
     new_shape.col = rand()%(C-new_shape.width+1);
     new_shape.row = 0;
     delete_shape(current);
@@ -63,7 +53,7 @@ void reflect_key_input(int c, int *final, char Table[R][C], char *GameOn, suseco
 					}
 				}
 				*final += 100*count;
-				Struct new_shape = create_shape(StructsArray[rand()%7]);
+				Struct new_shape = create_random_shape();
 				new_shape.col = rand()%(C-new_shape.width+1);
 				new_shape.row = 0;
 				delete_shape(current);
@@ -123,7 +113,7 @@ void update_screen(const int final, char Table[R][C], char *GameOn, suseconds_t 
 				*timer-=(*decrease)--;
 			}
 		}
-		Struct new_shape = create_shape(StructsArray[rand()%7]);
+		Struct new_shape = create_random_shape();
 		new_shape.col = rand()%(C-new_shape.width+1);
 		new_shape.row = 0;
 		delete_shape(current);

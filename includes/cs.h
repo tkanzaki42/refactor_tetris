@@ -3,6 +3,7 @@
 
 #include "tetris.h"
 
+Struct create_random_shape();
 Struct create_shape(Struct shape);
 
 #endif
