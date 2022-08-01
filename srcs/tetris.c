@@ -90,7 +90,7 @@ void reflect_key_input(int c, int *final, char Table[R][C], char *GameOn, suseco
 			break;
 	}
 	delete_shape(temp);
-	FunctionPT(*final, Table);
+	print_table(*final, Table);
 }
 
 void update_screen(const int final, char Table[R][C], char *GameOn, suseconds_t *timer, int *decrease) {
@@ -133,7 +133,7 @@ void update_screen(const int final, char Table[R][C], char *GameOn, suseconds_t 
 		}
 	}
 	delete_shape(temp);
-	FunctionPT(final, Table);
+	print_table(final, Table);
 	gettimeofday(&before_now, NULL);
 }
 
@@ -173,10 +173,10 @@ int main() {
 	if(!check_puttable(current, Table)){
 		GameOn = F;
 	}
-    FunctionPT(final, Table);
+	print_table(final, Table);
 	play_game(&final, Table, &GameOn);
 	delete_shape(current);
 	endwin();
 	print_gameend_screen(final, Table);
-    return 0;
+	return 0;
 }

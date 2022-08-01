@@ -4,6 +4,6 @@
 #include "tetris.h"
 
 void copy_shape_on_table(char Buffer[R][C]);
-void FunctionPT(const int final, const char Table[R][C]);
+void print_table(const int final, const char Table[R][C]);
 
 #endif
