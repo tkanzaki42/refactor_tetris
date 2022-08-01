@@ -15,11 +15,7 @@ t_shape create_new_shape(t_game_info *gameinfo) {
 	return (new_shape);
 }
 
-void init_game(t_game_info *gameinfo) {
-    srand(time(0));
-    initscr();
-	gettimeofday(&before_now, NULL);
-	set_timeout(1);
+void init_gameinfo_struct(t_game_info *gameinfo) {
 	gameinfo->score = 0;
 	for(int i = 0; i < TABLE_ROW; ++i)
 		for(int j = 0; j < TABLE_COL; ++j)
@@ -30,6 +26,14 @@ void init_game(t_game_info *gameinfo) {
 	gameinfo->current_shape.col = 0;
 	gameinfo->current_shape.table_shape = NULL;
 	gameinfo->current_shape = create_new_shape(gameinfo);
+}
+
+void init_game(t_game_info *gameinfo) {
+    srand(time(0));
+    initscr();
+	gettimeofday(&before_now, NULL);
+	set_timeout(1);
+	init_gameinfo_struct(gameinfo);
 	if(!check_puttable(gameinfo->current_shape, gameinfo->table_game)) {
 		gameinfo->is_continue_game = false;
 	}
