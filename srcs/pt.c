@@ -1,10 +1,10 @@
 #include "pt.h"
 
 void copy_shape_on_table(char Buffer[TABLE_ROW][TABLE_COL]) {
-	for(int i = 0; i < current.width; ++i){
-		for(int j = 0; j < current.width; ++j){
-			if(current.array[i][j])
-				Buffer[current.row + i][current.col + j] = current.array[i][j];
+	for(int i = 0; i < current.position_col; ++i){
+		for(int j = 0; j < current.position_col; ++j){
+			if(current.table_shape[i][j])
+				Buffer[current.row + i][current.col + j] = current.table_shape[i][j];
 		}
 	}
 }

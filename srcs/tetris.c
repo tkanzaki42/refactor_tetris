@@ -16,11 +16,11 @@ void game_init() {
 	set_timeout(1);
 }
 
-Struct create_new_shape() {
-	Struct new_shape;
+t_shape create_new_shape() {
+	t_shape new_shape;
 
 	new_shape = create_random_shape();
-    new_shape.col = rand()%(TABLE_COL - new_shape.width + 1);
+    new_shape.col = rand()%(TABLE_COL - new_shape.position_col + 1);
     new_shape.row = 0;
     delete_shape(current);
 	return (new_shape);
@@ -28,7 +28,7 @@ Struct create_new_shape() {
 
 void reflect_key_input(int c, int *final, char Table[TABLE_ROW][TABLE_COL],
 		char *GameOn, suseconds_t *timer, int *decrease) {
-	Struct temp = create_shape(current);
+	t_shape temp = create_shape(current);
 	switch(c){
 		case INPUTKEY_DOWN:
 			temp.row++;  //move down
@@ -54,8 +54,8 @@ void reflect_key_input(int c, int *final, char Table[TABLE_ROW][TABLE_COL],
 					}
 				}
 				*final += 100*count;
-				Struct new_shape = create_random_shape();
-				new_shape.col = rand()%(TABLE_COL - new_shape.width + 1);
+				t_shape new_shape = create_random_shape();
+				new_shape.col = rand()%(TABLE_COL - new_shape.position_col + 1);
 				new_shape.row = 0;
 				delete_shape(current);
 				current = new_shape;
@@ -85,16 +85,16 @@ void reflect_key_input(int c, int *final, char Table[TABLE_ROW][TABLE_COL],
 }
 
 void update_screen(const int final, char Table[TABLE_ROW][TABLE_COL], char *GameOn, suseconds_t *timer, int *decrease) {
-	Struct temp = create_shape(current);
+	t_shape temp = create_shape(current);
 	temp.row++;
 	if(check_puttable(temp, Table))
 		current.row++;
 	else {
 		int i, j;
-		for(i = 0; i < current.width ;i++){
-			for(j = 0; j < current.width ; j++){
-				if(current.array[i][j])
-					Table[current.row+i][current.col+j] = current.array[i][j];
+		for(i = 0; i < current.position_col ;i++){
+			for(j = 0; j < current.position_col ; j++){
+				if(current.table_shape[i][j])
+					Table[current.row+i][current.col+j] = current.table_shape[i][j];
 			}
 		}
 		int n, m, sum, count=0;
@@ -114,8 +114,8 @@ void update_screen(const int final, char Table[TABLE_ROW][TABLE_COL], char *Game
 				*timer-=(*decrease)--;
 			}
 		}
-		Struct new_shape = create_random_shape();
-		new_shape.col = rand() % (TABLE_COL - new_shape.width + 1);
+		t_shape new_shape = create_random_shape();
+		new_shape.col = rand() % (TABLE_COL - new_shape.position_col + 1);
 		new_shape.row = 0;
 		delete_shape(current);
 		current = new_shape;

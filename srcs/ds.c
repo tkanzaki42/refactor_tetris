@@ -1,9 +1,9 @@
 #include "tetris.h"
 
-void delete_shape(Struct shape){
+void delete_shape(t_shape shape){
     int i;
-    for(i = 0; i < shape.width; i++){
-		free(shape.array[i]);
+    for(i = 0; i < shape.position_col; i++){
+		free(shape.table_shape[i]);
     }
-    free(shape.array);
+    free(shape.table_shape);
 }

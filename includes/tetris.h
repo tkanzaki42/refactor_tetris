@@ -25,17 +25,12 @@
 // };
 
 typedef struct {
-    char **array;
-    int width, row, col;
-} Struct;
-Struct current;
-
-// typedef struct {
-// 	char	**table_shape;
-// 	int		position_col;
-// 	int		row;
-// 	int		col;
-// } t_shape;
+	char	**table_shape;
+	int		position_col;
+	int		row;
+	int		col;
+} t_shape;
+t_shape current;
 
 // typedef struct {
 // 	char	table_game[TABLE_ROW][TABLE_COL];
