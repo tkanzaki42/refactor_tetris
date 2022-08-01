@@ -30,7 +30,7 @@ void reflect_key_input(int c, int *final, char Table[TABLE_ROW][TABLE_COL],
 		char *GameOn, suseconds_t *timer, int *decrease) {
 	Struct temp = create_shape(current);
 	switch(c){
-		case 's':
+		case INPUTKEY_DOWN:
 			temp.row++;  //move down
 			if(check_puttable(temp, Table))
 				current.row++;
@@ -64,17 +64,17 @@ void reflect_key_input(int c, int *final, char Table[TABLE_ROW][TABLE_COL],
 				}
 			}
 			break;
-		case 'd':
+		case INPUTKEY_RIGHT:
 			temp.col++;
 			if(check_puttable(temp, Table))
 				current.col++;
 			break;
-		case 'a':
+		case INPUTKEY_LEFT:
 			temp.col--;
 			if(check_puttable(temp, Table))
 				current.col--;
 			break;
-		case 'w':
+		case INPUTKEY_ROTATE:
 			rotate_shape(temp);
 			if(check_puttable(temp, Table))
 				rotate_shape(current);

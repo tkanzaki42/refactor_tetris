@@ -10,6 +10,12 @@
 
 # define TABLE_ROW 20
 # define TABLE_COL 15
+
+# define INPUTKEY_DOWN   's'
+# define INPUTKEY_LEFT   'a'
+# define INPUTKEY_RIGHT  'd'
+# define INPUTKEY_ROTATE 'w'
+
 # define T 1
 # define F 0
 
@@ -23,13 +29,6 @@ typedef struct {
     int width, row, col;
 } Struct;
 Struct current;
-
-// enum e_inputkey {
-// 	KEY_DOWN = 's',
-// 	KEY_LEFT = 'a',
-// 	KEY_RIGHT = 'd',
-// 	KEY_ROTATE = 'w'
-// };
 
 // typedef struct {
 // 	char	**table_shape;
