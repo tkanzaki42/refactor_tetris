@@ -19,7 +19,7 @@ t_shape create_new_shape(t_game_info *gameinfo) {
 	return (new_shape);
 }
 
-void game_init(t_game_info *gameinfo) {
+void init_game(t_game_info *gameinfo) {
     srand(time(0));
     initscr();
 	gettimeofday(&before_now, NULL);
@@ -177,7 +177,7 @@ void finalize_game(t_game_info *gameinfo) {
 int main() {
 	t_game_info	gameinfo;
 
-	game_init(&gameinfo);
+	init_game(&gameinfo);
 	print_table(&gameinfo);
 	play_game(&gameinfo);
 	finalize_game(&gameinfo);
