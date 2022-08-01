@@ -89,13 +89,7 @@ void update_screen(t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
 	if(check_puttable(temp, gameinfo->table_game))
 		gameinfo->current_shape.row++;
 	else {
-		for(int i = 0; i < gameinfo->current_shape.side_length ;i++){
-			for(int j = 0; j < gameinfo->current_shape.side_length ; j++){
-				if(gameinfo->current_shape.table_shape[i][j])
-					gameinfo->table_game[gameinfo->current_shape.row + i][gameinfo->current_shape.col + j]
-						= gameinfo->current_shape.table_shape[i][j];
-			}
-		}
+		copy_shape_on_buffer(gameinfo, gameinfo->table_game);
 		check_line_deletion(gameinfo, timer, decrease);
 		replace_shape(gameinfo);
 	}
