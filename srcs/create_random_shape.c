@@ -1,6 +1,6 @@
-#include "cs.h"
-#include "ds.h"
-#include "cp.h"
+#include "create_random_shape.h"
+#include "delete_shape.h"
+#include "check_puttable.h"
 
 t_shape create_random_shape() {
 	const t_shape shape_list[7] = {

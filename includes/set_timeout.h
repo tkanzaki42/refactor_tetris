@@ -1,5 +1,5 @@
-#ifndef SETTIMEOUT_H
-# define SETTIMEOUT_H
+#ifndef SET_TIMEOUT_H
+# define SET_TIMEOUT_H
 
 #include "tetris.h"
 

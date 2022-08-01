@@ -1,4 +1,4 @@
-#include "tetris.h"
+#include "delete_shape.h"
 
 void delete_shape(t_shape shape) {
 	if (shape.table_shape == NULL)

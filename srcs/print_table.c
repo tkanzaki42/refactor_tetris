@@ -1,4 +1,4 @@
-#include "pt.h"
+#include "print_table.h"
 
 void copy_shape_on_buffer(t_game_info *gameinfo, char Buffer[TABLE_ROW][TABLE_COL]) {
 	for(int i = 0; i < gameinfo->current_shape.side_length; ++i){

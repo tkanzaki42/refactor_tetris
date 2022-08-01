@@ -1,4 +1,4 @@
-#include "cp.h"
+#include "check_puttable.h"
 
 bool check_puttable(const t_shape shape, const char table[TABLE_ROW][TABLE_COL]) {
 	for (int i = 0; i < shape.side_length; i++) {

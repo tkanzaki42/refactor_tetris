@@ -1,5 +1,5 @@
-#ifndef DS_H
-# define DS_H
+#ifndef DELETE_SHAPE_H
+# define DELETE_SHAPE_H
 
 #include "tetris.h"
 

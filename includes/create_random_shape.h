@@ -1,5 +1,5 @@
-#ifndef CS_H
-# define CS_H
+#ifndef CREATE_RANDOM_SHAPE_H
+# define CREATE_RANDOM_SHAPE_H
 
 #include "tetris.h"
 

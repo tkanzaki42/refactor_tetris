@@ -1,5 +1,5 @@
-#ifndef RS_H
-# define RS_H
+#ifndef ROTATE_SHAPE_H
+# define ROTATE_SHAPE_H
 
 #include "tetris.h"
 

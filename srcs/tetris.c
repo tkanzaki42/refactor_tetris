@@ -1,11 +1,11 @@
 #include "tetris.h"
-#include "cs.h"
-#include "ds.h"
-#include "rs.h"
-#include "cp.h"
-#include "pt.h"
-#include "hastoupdate.h"
-#include "settimeout.h"
+#include "create_random_shape.h"
+#include "delete_shape.h"
+#include "rotate_shape.h"
+#include "check_puttable.h"
+#include "print_table.h"
+#include "has_to_update.h"
+#include "set_timeout.h"
 
 void init_gameinfo_struct(t_game_info *gameinfo) {
 	gameinfo->score = 0;
@@ -105,7 +105,7 @@ void play_game(t_game_info *gameinfo) {
 		if ((c = getch()) != ERR)
 			reflect_key_input(c, gameinfo, &timer, &decrease);
 		gettimeofday(&now, NULL);
-		if (hasToUpdate(&timer))
+		if (has_to_update(&timer))
 			update_screen(gameinfo, &timer, &decrease);
 	}
 }

@@ -1,5 +1,5 @@
-#ifndef PT_H
-# define PT_H
+#ifndef PRINT_TABLE_H
+# define PRINT_TABLE_H
 
 #include "tetris.h"
 

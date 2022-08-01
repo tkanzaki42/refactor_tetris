@@ -1,6 +1,6 @@
-#include "rs.h"
-#include "cs.h"
-#include "ds.h"
+#include "rotate_shape.h"
+#include "create_random_shape.h"
+#include "delete_shape.h"
 
 void rotate_shape(t_shape shape) {
 	t_shape temp = duplicate_shape(shape);

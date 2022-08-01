@@ -5,13 +5,13 @@ INCLUDE		= -I./includes
 SRC_DIR		= srcs
 SRCS		= \
 				$(SRC_DIR)/tetris.c \
-				$(SRC_DIR)/hastoupdate.c \
-				$(SRC_DIR)/settimeout.c \
-				$(SRC_DIR)/cs.c \
-				$(SRC_DIR)/cp.c \
-				$(SRC_DIR)/ds.c \
-				$(SRC_DIR)/pt.c \
-				$(SRC_DIR)/rs.c
+				$(SRC_DIR)/has_to_update.c \
+				$(SRC_DIR)/set_timeout.c \
+				$(SRC_DIR)/create_random_shape.c \
+				$(SRC_DIR)/check_puttable.c \
+				$(SRC_DIR)/delete_shape.c \
+				$(SRC_DIR)/print_table.c \
+				$(SRC_DIR)/rotate_shape.c
 OBJS		= $(SRCS:.c=.o)
 DBGFLAG		= -g -fsanitize=address
 
