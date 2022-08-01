@@ -41,7 +41,7 @@ void reflect_key_input(int c, int *final, char Table[R][C], char *GameOn, suseco
 	switch(c){
 		case 's':
 			temp.row++;  //move down
-			if(FunctionCP(temp, Table))
+			if(check_puttable(temp, Table))
 				current.row++;
 			else {
 				copy_shape_on_table(Table);
@@ -68,24 +68,24 @@ void reflect_key_input(int c, int *final, char Table[R][C], char *GameOn, suseco
 				new_shape.row = 0;
 				delete_shape(current);
 				current = new_shape;
-				if(!FunctionCP(current, Table)){
+				if(!check_puttable(current, Table)){
 					*GameOn = F;
 				}
 			}
 			break;
 		case 'd':
 			temp.col++;
-			if(FunctionCP(temp, Table))
+			if(check_puttable(temp, Table))
 				current.col++;
 			break;
 		case 'a':
 			temp.col--;
-			if(FunctionCP(temp, Table))
+			if(check_puttable(temp, Table))
 				current.col--;
 			break;
 		case 'w':
 			rotate_shape(temp);
-			if(FunctionCP(temp, Table))
+			if(check_puttable(temp, Table))
 				rotate_shape(current);
 			break;
 	}
@@ -96,7 +96,7 @@ void reflect_key_input(int c, int *final, char Table[R][C], char *GameOn, suseco
 void update_screen(const int final, char Table[R][C], char *GameOn, suseconds_t *timer, int *decrease) {
 	Struct temp = create_shape(current);
 	temp.row++;
-	if(FunctionCP(temp, Table))
+	if(check_puttable(temp, Table))
 		current.row++;
 	else {
 		int i, j;
@@ -128,7 +128,7 @@ void update_screen(const int final, char Table[R][C], char *GameOn, suseconds_t 
 		new_shape.row = 0;
 		delete_shape(current);
 		current = new_shape;
-		if(!FunctionCP(current, Table)){
+		if(!check_puttable(current, Table)){
 			*GameOn = F;
 		}
 	}
@@ -170,7 +170,7 @@ int main() {
 	char GameOn = T;
 	game_init();
 	current = create_new_shape();
-	if(!FunctionCP(current, Table)){
+	if(!check_puttable(current, Table)){
 		GameOn = F;
 	}
     FunctionPT(final, Table);
