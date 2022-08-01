@@ -9,13 +9,6 @@
 
 struct timeval before_now, now;
 
-void game_init() {
-    srand(time(0));
-    initscr();
-	gettimeofday(&before_now, NULL);
-	set_timeout(1);
-}
-
 t_shape create_new_shape(t_game_info *gameinfo) {
 	t_shape new_shape;
 
@@ -24,6 +17,26 @@ t_shape create_new_shape(t_game_info *gameinfo) {
     new_shape.row = 0;
     delete_shape(gameinfo->current_shape);
 	return (new_shape);
+}
+
+void game_init(t_game_info *gameinfo) {
+    srand(time(0));
+    initscr();
+	gettimeofday(&before_now, NULL);
+	set_timeout(1);
+	gameinfo->score = 0;
+	for(int i = 0; i < TABLE_ROW; ++i)
+		for(int j = 0; j < TABLE_COL; ++j)
+			gameinfo->table_game[i][j] = 0;
+	gameinfo->is_continue_game = true;
+	gameinfo->current_shape.position_col = 0;
+	gameinfo->current_shape.row = 0;
+	gameinfo->current_shape.col = 0;
+	gameinfo->current_shape.table_shape = NULL;
+	gameinfo->current_shape = create_new_shape(gameinfo);
+	if(!check_puttable(gameinfo->current_shape, gameinfo->table_game)) {
+		gameinfo->is_continue_game = false;
+	}
 }
 
 void reflect_key_input(int c, t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
@@ -155,27 +168,18 @@ void print_gameend_screen(t_game_info *gameinfo) {
 	printf("\nScore: %d\n", gameinfo->score);
 }
 
+void finalize_game(t_game_info *gameinfo) {
+	print_gameend_screen(gameinfo);
+	delete_shape(gameinfo->current_shape);
+	endwin();
+}
+
 int main() {
 	t_game_info	gameinfo;
 
-	gameinfo.score = 0;
-	for(int i = 0; i < TABLE_ROW; ++i)
-		for(int j = 0; j < TABLE_COL; ++j)
-			gameinfo.table_game[i][j] = 0;
-	gameinfo.is_continue_game = true;
-	gameinfo.current_shape.position_col = 0;
-	gameinfo.current_shape.row = 0;
-	gameinfo.current_shape.col = 0;
-	gameinfo.current_shape.table_shape = NULL;
-	game_init();
-	gameinfo.current_shape = create_new_shape(&gameinfo);
-	if(!check_puttable(gameinfo.current_shape, gameinfo.table_game)) {
-		gameinfo.is_continue_game = false;
-	}
+	game_init(&gameinfo);
 	print_table(&gameinfo);
 	play_game(&gameinfo);
-	delete_shape(gameinfo.current_shape);
-	endwin();
-	print_gameend_screen(&gameinfo);
+	finalize_game(&gameinfo);
 	return 0;
 }
