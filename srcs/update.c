@@ -31,5 +31,4 @@ void update_key_input(int c, t_game_info *gameinfo, suseconds_t *timer, int *dec
 void update_screen(t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
 	print_shape_moved_down(gameinfo, timer, decrease, false);
 	print_table(gameinfo);
-	gettimeofday(&gameinfo->before_now, NULL);
 }
