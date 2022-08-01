@@ -10,11 +10,7 @@
 struct timeval before_now, now;
 
 t_shape create_new_shape(t_game_info *gameinfo) {
-	t_shape new_shape;
-
-	new_shape = create_random_shape();
-    new_shape.col = rand()%(TABLE_COL - new_shape.position_col + 1);
-    new_shape.row = 0;
+	t_shape new_shape = create_random_shape();
     delete_shape(gameinfo->current_shape);
 	return (new_shape);
 }
@@ -67,8 +63,6 @@ void reflect_key_input(int c, t_game_info *gameinfo, suseconds_t *timer, int *de
 				}
 				gameinfo->score += 100*count;
 				t_shape new_shape = create_random_shape();
-				new_shape.col = rand()%(TABLE_COL - new_shape.position_col + 1);
-				new_shape.row = 0;
 				delete_shape(gameinfo->current_shape);
 				gameinfo->current_shape = new_shape;
 				if(!check_puttable(gameinfo->current_shape, gameinfo->table_game)){
@@ -128,8 +122,6 @@ void update_screen(t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
 			}
 		}
 		t_shape new_shape = create_random_shape();
-		new_shape.col = rand() % (TABLE_COL - new_shape.position_col + 1);
-		new_shape.row = 0;
 		delete_shape(gameinfo->current_shape);
 		gameinfo->current_shape = new_shape;
 		if(!check_puttable(gameinfo->current_shape, gameinfo->table_game)){
