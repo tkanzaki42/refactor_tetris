@@ -7,8 +7,6 @@
 #include "hastoupdate.h"
 #include "settimeout.h"
 
-int decrease = 1000;
-
 const Struct StructsArray[7]= {
 	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3},
 	{(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3},
@@ -38,7 +36,7 @@ Struct create_new_shape() {
 	return (new_shape);
 }
 
-void reflect_key_input(int c, int *final, char Table[R][C], char *GameOn, suseconds_t *timer) {
+void reflect_key_input(int c, int *final, char Table[R][C], char *GameOn, suseconds_t *timer, int *decrease) {
 	Struct temp = FunctionCS(current);
 	switch(c){
 		case 's':
@@ -67,7 +65,7 @@ void reflect_key_input(int c, int *final, char Table[R][C], char *GameOn, suseco
 								Table[k][l]=Table[k-1][l];
 						for(l=0;l<C;l++)
 							Table[k][l]=0;
-						*timer-=decrease--;
+						*timer-=(*decrease)--;
 					}
 				}
 				*final += 100*count;
@@ -101,7 +99,7 @@ void reflect_key_input(int c, int *final, char Table[R][C], char *GameOn, suseco
 	FunctionPT(*final, Table);
 }
 
-void update_screen(const int final, char Table[R][C], char *GameOn, suseconds_t *timer) {
+void update_screen(const int final, char Table[R][C], char *GameOn, suseconds_t *timer, int *decrease) {
 	Struct temp = FunctionCS(current);
 	temp.row++;
 	if(FunctionCP(temp, Table))
@@ -128,7 +126,7 @@ void update_screen(const int final, char Table[R][C], char *GameOn, suseconds_t 
 						Table[k][l]=Table[k-1][l];
 				for(l=0;l<C;l++)
 					Table[k][l]=0;
-				*timer-=decrease--;
+				*timer-=(*decrease)--;
 			}
 		}
 		Struct new_shape = FunctionCS(StructsArray[rand()%7]);
@@ -148,13 +146,14 @@ void update_screen(const int final, char Table[R][C], char *GameOn, suseconds_t 
 void play_game(int *final, char Table[R][C], char *GameOn) {
     int c;
 	suseconds_t timer = 400000;
+	int decrease = 1000;
 
 	while(*GameOn){
 		if ((c = getch()) != ERR)
-			reflect_key_input(c, final, Table, GameOn, &timer);
+			reflect_key_input(c, final, Table, GameOn, &timer, &decrease);
 		gettimeofday(&now, NULL);
 		if (hasToUpdate(&timer))
-			update_screen(*final, Table, GameOn, &timer);
+			update_screen(*final, Table, GameOn, &timer, &decrease);
 	}
 }
 
