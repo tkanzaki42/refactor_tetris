@@ -59,8 +59,8 @@ void reflect_key_input(int c, t_game_info *gameinfo, suseconds_t *timer, int *de
 				gameinfo->current_shape.row++;
 			else {
 				copy_shape_on_buffer(gameinfo, gameinfo->table_game);
-				int count = check_line_deletion(gameinfo, timer, decrease);
-				gameinfo->score += 100*count;
+				int bonus_score = check_line_deletion(gameinfo, timer, decrease);
+				gameinfo->score += 100 * bonus_score;
 				replace_shape(gameinfo);
 			}
 			break;
