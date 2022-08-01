@@ -9,12 +9,6 @@
 
 struct timeval before_now, now;
 
-t_shape create_new_shape(t_game_info *gameinfo) {
-	t_shape new_shape = create_random_shape();
-    delete_shape(gameinfo->current_shape);
-	return (new_shape);
-}
-
 void init_gameinfo_struct(t_game_info *gameinfo) {
 	gameinfo->score = 0;
 	for(int i = 0; i < TABLE_ROW; ++i)
@@ -25,7 +19,7 @@ void init_gameinfo_struct(t_game_info *gameinfo) {
 	gameinfo->current_shape.row = 0;
 	gameinfo->current_shape.col = 0;
 	gameinfo->current_shape.table_shape = NULL;
-	gameinfo->current_shape = create_new_shape(gameinfo);
+	gameinfo->current_shape = create_random_shape();
 }
 
 void init_game(t_game_info *gameinfo) {
