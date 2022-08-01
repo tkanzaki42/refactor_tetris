@@ -44,13 +44,7 @@ void reflect_key_input(int c, int *final, char Table[R][C], char *GameOn, suseco
 			if(FunctionCP(temp, Table))
 				current.row++;
 			else {
-				int i, j;
-				for(i = 0; i < current.width ;i++){
-					for(j = 0; j < current.width ; j++){
-						if(current.array[i][j])
-							Table[current.row+i][current.col+j] = current.array[i][j];
-					}
-				}
+				copy_shape_on_table(Table);
 				int n, m, sum, count=0;
 				for(n=0;n<R;n++){
 					sum = 0;
