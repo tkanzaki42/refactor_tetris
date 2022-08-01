@@ -56,7 +56,7 @@ int check_line_deletion(t_game_info *gameinfo, suseconds_t *timer, int *decrease
 }
 
 void reflect_key_input(int c, t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
-	t_shape temp = create_shape(gameinfo->current_shape);
+	t_shape temp = duplicate_shape(gameinfo->current_shape);
 	switch(c){
 		case INPUTKEY_DOWN:
 			temp.row++;  //move down
@@ -94,7 +94,7 @@ void reflect_key_input(int c, t_game_info *gameinfo, suseconds_t *timer, int *de
 }
 
 void update_screen(t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
-	t_shape temp = create_shape(gameinfo->current_shape);
+	t_shape temp = duplicate_shape(gameinfo->current_shape);
 	temp.row++;
 	if(check_puttable(temp, gameinfo->table_game))
 		gameinfo->current_shape.row++;

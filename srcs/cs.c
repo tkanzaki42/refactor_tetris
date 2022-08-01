@@ -12,13 +12,13 @@ t_shape create_random_shape() {
 			4, 0, 0}
 	};
 
-	t_shape new_shape = create_shape(shape_list[rand() % 7]);
+	t_shape new_shape = duplicate_shape(shape_list[rand() % 7]);
 	new_shape.col = rand() % (TABLE_COL - new_shape.position_col + 1);
 	new_shape.row = 0;
 	return new_shape;
 }
 
-t_shape create_shape(t_shape shape){
+t_shape duplicate_shape(t_shape shape){
 
 	t_shape new_shape = shape;
 	char **copyshape = shape.table_shape;
