@@ -3,8 +3,6 @@
 
 #include "tetris.h"
 
-extern char Table[R][C];
-
-int FunctionCP(Struct shape);
+int FunctionCP(Struct shape, const char Table[R][C]);
 
 #endif

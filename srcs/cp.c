@@ -1,6 +1,6 @@
 #include "cp.h"
 
-int FunctionCP(Struct shape){
+int FunctionCP(Struct shape, const char Table[R][C]){
 	char **array = shape.array;
 	int i, j;
 	for(i = 0; i < shape.width;i++) {
