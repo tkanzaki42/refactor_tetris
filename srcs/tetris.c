@@ -34,19 +34,20 @@ void init_game(t_game_info *gameinfo) {
 }
 
 int check_line_deletion(t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
-	int n, m, sum, count=0;
-	for(n = 0; n < TABLE_ROW; ++n){
-		sum = 0;
-		for(m = 0; m < TABLE_COL; ++m) {
+	int count = 0;
+
+	for(int n = 0; n < TABLE_ROW; ++n){
+		int sum = 0;
+		for(int m = 0; m < TABLE_COL; ++m) {
 			sum += gameinfo->table_game[n][m];
 		}
 		if(sum == TABLE_COL){
 			count++;
-			int l, k;
-			for(k = n;k >=1;k--)
-				for(l = 0; l < TABLE_COL; ++l)
+			int k;
+			for(k = n; k >=1; k--)
+				for(int l = 0; l < TABLE_COL; ++l)
 					gameinfo->table_game[k][l]=gameinfo->table_game[k-1][l];
-			for(l = 0; l < TABLE_COL; ++l)
+			for(int l = 0; l < TABLE_COL; ++l)
 				gameinfo->table_game[k][l]=0;
 			*timer-=(*decrease)--;
 		}
@@ -98,9 +99,8 @@ void update_screen(t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
 	if(check_puttable(temp, gameinfo->table_game))
 		gameinfo->current_shape.row++;
 	else {
-		int i, j;
-		for(i = 0; i < gameinfo->current_shape.position_col ;i++){
-			for(j = 0; j < gameinfo->current_shape.position_col ; j++){
+		for(int i = 0; i < gameinfo->current_shape.position_col ;i++){
+			for(int j = 0; j < gameinfo->current_shape.position_col ; j++){
 				if(gameinfo->current_shape.table_shape[i][j])
 					gameinfo->table_game[gameinfo->current_shape.row + i][gameinfo->current_shape.col + j]
 						= gameinfo->current_shape.table_shape[i][j];
@@ -133,10 +133,8 @@ void play_game(t_game_info *gameinfo) {
 }
 
 void print_gameend_screen(t_game_info *gameinfo) {
-	int i, j;
-
-	for(i = 0; i < TABLE_ROW; ++i){
-		for(j = 0; j < TABLE_COL; ++j){
+	for(int i = 0; i < TABLE_ROW; ++i){
+		for(int j = 0; j < TABLE_COL; ++j){
 			printf("%c ", gameinfo->table_game[i][j] ? '#': '.');
 		}
 		printf("\n");
