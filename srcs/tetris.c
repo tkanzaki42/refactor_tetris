@@ -20,13 +20,14 @@ Struct create_new_shape() {
 	Struct new_shape;
 
 	new_shape = create_random_shape();
-    new_shape.col = rand()%(C-new_shape.width+1);
+    new_shape.col = rand()%(TABLE_COL - new_shape.width + 1);
     new_shape.row = 0;
     delete_shape(current);
 	return (new_shape);
 }
 
-void reflect_key_input(int c, int *final, char Table[R][C], char *GameOn, suseconds_t *timer, int *decrease) {
+void reflect_key_input(int c, int *final, char Table[TABLE_ROW][TABLE_COL],
+		char *GameOn, suseconds_t *timer, int *decrease) {
 	Struct temp = create_shape(current);
 	switch(c){
 		case 's':
@@ -36,25 +37,25 @@ void reflect_key_input(int c, int *final, char Table[R][C], char *GameOn, suseco
 			else {
 				copy_shape_on_table(Table);
 				int n, m, sum, count=0;
-				for(n=0;n<R;n++){
+				for(n = 0; n < TABLE_ROW; ++n){
 					sum = 0;
-					for(m=0;m< C;m++) {
+					for(m = 0; m < TABLE_COL; ++m) {
 						sum+=Table[n][m];
 					}
-					if(sum==C){
+					if(sum == TABLE_COL){
 						count++;
 						int l, k;
 						for(k = n;k >=1;k--)
-							for(l=0;l<C;l++)
+							for(l = 0; l < TABLE_COL; ++l)
 								Table[k][l]=Table[k-1][l];
-						for(l=0;l<C;l++)
+						for(l = 0; l < TABLE_COL; ++l)
 							Table[k][l]=0;
 						*timer-=(*decrease)--;
 					}
 				}
 				*final += 100*count;
 				Struct new_shape = create_random_shape();
-				new_shape.col = rand()%(C-new_shape.width+1);
+				new_shape.col = rand()%(TABLE_COL - new_shape.width + 1);
 				new_shape.row = 0;
 				delete_shape(current);
 				current = new_shape;
@@ -83,7 +84,7 @@ void reflect_key_input(int c, int *final, char Table[R][C], char *GameOn, suseco
 	print_table(*final, Table);
 }
 
-void update_screen(const int final, char Table[R][C], char *GameOn, suseconds_t *timer, int *decrease) {
+void update_screen(const int final, char Table[TABLE_ROW][TABLE_COL], char *GameOn, suseconds_t *timer, int *decrease) {
 	Struct temp = create_shape(current);
 	temp.row++;
 	if(check_puttable(temp, Table))
@@ -97,24 +98,24 @@ void update_screen(const int final, char Table[R][C], char *GameOn, suseconds_t 
 			}
 		}
 		int n, m, sum, count=0;
-		for(n=0;n<R;n++){
+		for(n = 0; n < TABLE_ROW; ++n){
 			sum = 0;
-			for(m=0;m< C;m++) {
+			for(m = 0; m < TABLE_COL; ++m) {
 				sum+=Table[n][m];
 			}
-			if(sum==C){
+			if(sum == TABLE_COL){
 				count++;
 				int l, k;
 				for(k = n;k >=1;k--)
-					for(l=0;l<C;l++)
+					for(l = 0; l < TABLE_COL; ++l)
 						Table[k][l]=Table[k-1][l];
-				for(l=0;l<C;l++)
+				for(l = 0; l < TABLE_COL; ++l)
 					Table[k][l]=0;
 				*timer-=(*decrease)--;
 			}
 		}
 		Struct new_shape = create_random_shape();
-		new_shape.col = rand()%(C-new_shape.width+1);
+		new_shape.col = rand() % (TABLE_COL - new_shape.width + 1);
 		new_shape.row = 0;
 		delete_shape(current);
 		current = new_shape;
@@ -127,7 +128,7 @@ void update_screen(const int final, char Table[R][C], char *GameOn, suseconds_t 
 	gettimeofday(&before_now, NULL);
 }
 
-void play_game(int *final, char Table[R][C], char *GameOn) {
+void play_game(int *final, char Table[TABLE_ROW][TABLE_COL], char *GameOn) {
     int c;
 	suseconds_t timer = 400000;
 	int decrease = 1000;
@@ -141,11 +142,11 @@ void play_game(int *final, char Table[R][C], char *GameOn) {
 	}
 }
 
-void print_gameend_screen(const int final, const char Table[R][C]) {
+void print_gameend_screen(const int final, const char Table[TABLE_ROW][TABLE_COL]) {
 	int i, j;
 
-	for(i = 0; i < R ;i++){
-		for(j = 0; j < C ; j++){
+	for(i = 0; i < TABLE_ROW; ++i){
+		for(j = 0; j < TABLE_COL; ++j){
 			printf("%c ", Table[i][j] ? '#': '.');
 		}
 		printf("\n");
@@ -156,7 +157,7 @@ void print_gameend_screen(const int final, const char Table[R][C]) {
 
 int main() {
 	int final = 0;
-	char Table[R][C] = {0};
+	char Table[TABLE_ROW][TABLE_COL] = {0};
 	char GameOn = T;
 	game_init();
 	current = create_new_shape();
