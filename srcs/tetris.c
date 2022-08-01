@@ -38,12 +38,11 @@ int check_line_deletion(t_game_info *gameinfo, suseconds_t *timer, int *decrease
 		}
 		if(sum == TABLE_COL){
 			count++;
-			int k;
-			for(k = n; k >=1; k--)
+			for(int k = n; k >=1; k--)
 				for(int l = 0; l < TABLE_COL; ++l)
 					gameinfo->table_game[k][l]=gameinfo->table_game[k-1][l];
 			for(int l = 0; l < TABLE_COL; ++l)
-				gameinfo->table_game[k][l]=0;
+				gameinfo->table_game[0][l] = 0;
 			*timer-=(*decrease)--;
 		}
 	}
