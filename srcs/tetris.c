@@ -122,9 +122,9 @@ void print_gameend_screen(t_game_info *gameinfo) {
 }
 
 void finalize_game(t_game_info *gameinfo) {
-	print_gameend_screen(gameinfo);
 	delete_shape(gameinfo->current_shape);
 	endwin();
+	print_gameend_screen(gameinfo);
 }
 
 int main() {
