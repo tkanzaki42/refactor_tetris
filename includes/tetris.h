@@ -17,6 +17,11 @@
 # define INPUTKEY_ROTATE 'w'
 
 typedef struct {
+	suseconds_t	interval;
+	int			decrease_time_of_interval;
+} t_time;
+
+typedef struct {
 	char	**table_shape;
 	int		side_length;  // side length of a square which can store the sphere
 	int		row;

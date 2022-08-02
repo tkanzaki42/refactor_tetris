@@ -4,6 +4,6 @@
 # include "tetris.h"
 
 void update_key_input(
-		int key_input, t_game_info *gameinfo, suseconds_t *timer, int *decrease);
+		int key_input, t_game_info *gameinfo, t_time *time);
 
 #endif

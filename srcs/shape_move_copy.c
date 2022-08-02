@@ -4,7 +4,7 @@
 
 #define POINT_1LINE 100
 
-static int check_line_deletion(t_game_info *gameinfo, suseconds_t *timer, int *decrease);
+static int check_line_deletion(t_game_info *gameinfo, t_time *time);
 
 void rotate_shape(t_shape *shape) {
 	t_shape shape_original;
@@ -18,7 +18,7 @@ void rotate_shape(t_shape *shape) {
 	delete_shape(&shape_original);
 }
 
-void move_shape_down(t_game_info *gameinfo, suseconds_t *timer, int *decrease, bool add_bonus) {
+void move_shape_down(t_game_info *gameinfo, t_time *time, bool add_bonus) {
 	t_shape shape_checking;
 
 	duplicate_shape(&gameinfo->current_shape, &shape_checking);
@@ -27,7 +27,7 @@ void move_shape_down(t_game_info *gameinfo, suseconds_t *timer, int *decrease, b
 		gameinfo->current_shape.row++;
 	else {
 		copy_shape_to_table(&gameinfo->current_shape, gameinfo->table_game);
-		int bonus_score = check_line_deletion(gameinfo, timer, decrease);
+		int bonus_score = check_line_deletion(gameinfo, time);
 		if (add_bonus)
 			gameinfo->score += POINT_1LINE * bonus_score;
 		replace_shape(gameinfo);
@@ -35,7 +35,7 @@ void move_shape_down(t_game_info *gameinfo, suseconds_t *timer, int *decrease, b
 	delete_shape(&shape_checking);
 }
 
-static int check_line_deletion(t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
+static int check_line_deletion(t_game_info *gameinfo, t_time *time) {
 	int delete_line_count = 0;
 
 	for (int i = 0; i < TABLE_ROW; ++i) {
@@ -50,7 +50,7 @@ static int check_line_deletion(t_game_info *gameinfo, suseconds_t *timer, int *d
 					gameinfo->table_game[k][l] = gameinfo->table_game[k - 1][l];
 			for (int l = 0; l < TABLE_COL; ++l)
 				gameinfo->table_game[0][l] = 0;
-			*timer -= (*decrease)--;
+			time->interval -= (time->decrease_time_of_interval)--;
 		}
 	}
 	return delete_line_count;
