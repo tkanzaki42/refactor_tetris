@@ -5,8 +5,8 @@
 #include "screen_update.h"
 #include "shape_create_delete.h"
 
-#define TIMER_INIT_VALUE 400000
-#define DECREASE_INIT_VALUE 1000
+#define INTERVAL_INIT_VALUE 400000
+#define DECREASE_TIME_INIT_VALUE 1000
 
 void prepare_game(t_game_info *gameinfo) {
 	srand(time(0));
@@ -16,16 +16,20 @@ void prepare_game(t_game_info *gameinfo) {
 }
 
 void play_game(t_game_info *gameinfo) {
-	suseconds_t timer = TIMER_INIT_VALUE;
-	int decrease = DECREASE_INIT_VALUE;
+	t_time time = {
+		.interval = INTERVAL_INIT_VALUE,
+		.decrease_time_of_interval = DECREASE_TIME_INIT_VALUE
+	};
 
 	print_table(gameinfo);
-	while(gameinfo->is_continue_game) {
+	while (gameinfo->is_continue_game) {
 		int key_input = getch();
-		if (key_input != ERR)
-			update_key_input(key_input, gameinfo, &timer, &decrease);
-		if (has_to_update(&timer, gameinfo))
-			update_screen(gameinfo, &timer, &decrease);
+		if (key_input != ERR) {
+			accept_key_input(key_input, gameinfo, &time);
+			print_table(gameinfo);
+		}
+		if (has_to_update(gameinfo, &time))
+			update_screen(gameinfo, &time);
 	}
 }
 

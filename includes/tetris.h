@@ -11,10 +11,10 @@
 # define TABLE_ROW 20
 # define TABLE_COL 15
 
-# define INPUTKEY_DOWN   's'
-# define INPUTKEY_LEFT   'a'
-# define INPUTKEY_RIGHT  'd'
-# define INPUTKEY_ROTATE 'w'
+typedef struct {
+	suseconds_t	interval;
+	int			decrease_time_of_interval;
+} t_time;
 
 typedef struct {
 	char	**table_shape;

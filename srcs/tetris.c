@@ -1,7 +1,7 @@
 #include "tetris.h"
 #include "game_body.h"
 
-int main() {
+int main(void) {
 	t_game_info	gameinfo;
 
 	prepare_game(&gameinfo);
