@@ -1,6 +1,8 @@
-#include "update.h"
-#include "shape.h"
-#include "print.h"
+#include "key_input.h"
+#include "screen_print.h"
+#include "shape_move_copy.h"
+#include "shape_check.h"
+#include "shape_create_delete.h"
 
 void update_key_input(
 		int key_input, t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
@@ -28,10 +30,4 @@ void update_key_input(
 	}
 	delete_shape(&shape_checking);
 	print_table(gameinfo);
-}
-
-void update_screen(t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
-	move_shape_down(gameinfo, timer, decrease, false);
-	print_table(gameinfo);
-	gettimeofday(&gameinfo->last_update_time, NULL);
 }

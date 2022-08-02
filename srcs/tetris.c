@@ -1,5 +1,5 @@
 #include "tetris.h"
-#include "game.h"
+#include "game_body.h"
 
 int main() {
 	t_game_info	gameinfo;
