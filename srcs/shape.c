@@ -59,12 +59,11 @@ bool check_puttable_shape(const t_shape shape, const char table[TABLE_ROW][TABLE
 	return true;
 }
 
-void copy_shape_on_buffer(t_game_info *gameinfo, char Buffer[TABLE_ROW][TABLE_COL]) {
-	for(int i = 0; i < gameinfo->current_shape.side_length; ++i){
-		for(int j = 0; j < gameinfo->current_shape.side_length; ++j){
-			if(gameinfo->current_shape.table_shape[i][j])
-				Buffer[gameinfo->current_shape.row + i][gameinfo->current_shape.col + j]
-					= gameinfo->current_shape.table_shape[i][j];
+void copy_shape_to_table(const t_shape *shape, char table[TABLE_ROW][TABLE_COL]) {
+	for(int i = 0; i < shape->side_length; ++i){
+		for(int j = 0; j < shape->side_length; ++j){
+			if(shape->table_shape[i][j])
+				table[shape->row + i][shape->col + j] = shape->table_shape[i][j];
 		}
 	}
 }
@@ -75,7 +74,7 @@ void move_shape_down(t_game_info *gameinfo, suseconds_t *timer, int *decrease, b
 	if(check_puttable_shape(temp, gameinfo->table_game))
 		gameinfo->current_shape.row++;
 	else {
-		copy_shape_on_buffer(gameinfo, gameinfo->table_game);
+		copy_shape_to_table(&gameinfo->current_shape, gameinfo->table_game);
 		int bonus_score = check_line_deletion(gameinfo, timer, decrease);
 		if (add_bonus)
 			gameinfo->score += 100 * bonus_score;

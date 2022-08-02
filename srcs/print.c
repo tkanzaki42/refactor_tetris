@@ -4,7 +4,7 @@
 void print_table(t_game_info *gameinfo) {
 	char Buffer[TABLE_ROW][TABLE_COL] = {0};
 
-	copy_shape_on_buffer(gameinfo, Buffer);
+	copy_shape_to_table(&gameinfo->current_shape, Buffer);
 	clear();
 	for (int i = 0; i < TABLE_COL - 9; ++i)
 		printw(" ");
