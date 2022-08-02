@@ -4,6 +4,6 @@
 # include "tetris.h"
 
 void accept_key_input(
-		int key_input, t_game_info *gameinfo, t_time *time);
+		const int key_input, t_game_info *gameinfo, t_time *time);
 
 #endif

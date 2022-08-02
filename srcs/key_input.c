@@ -10,7 +10,7 @@
 # define INPUTKEY_ROTATE 'w'
 
 void accept_key_input(
-		int key_input, t_game_info *gameinfo, t_time *time) {
+		const int key_input, t_game_info *gameinfo, t_time *time) {
 	t_shape shape_checking;
 
 	duplicate_shape(&gameinfo->current_shape, &shape_checking);
