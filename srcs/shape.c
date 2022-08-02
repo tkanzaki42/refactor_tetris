@@ -3,7 +3,7 @@
 #define POINT_1LINE 100
 #define SHAPE_LIST_AMOUNT 7
 
-static t_shape create_random_shape();
+static void create_random_shape(t_shape *new_shape);
 static int check_line_deletion(t_game_info *gameinfo, suseconds_t *timer, int *decrease);
 
 void rotate_shape(t_shape *shape) {
@@ -44,7 +44,7 @@ void duplicate_shape(const t_shape *shape, t_shape *dup) {
 
 void replace_shape(t_game_info *gameinfo) {
 	delete_shape(&gameinfo->current_shape);
-	gameinfo->current_shape = create_random_shape();
+	create_random_shape(&gameinfo->current_shape);
 	if(!check_puttable_shape(&gameinfo->current_shape, gameinfo->table_game)) {
 		gameinfo->is_continue_game = false;
 	}
@@ -90,7 +90,7 @@ void move_shape_down(t_game_info *gameinfo, suseconds_t *timer, int *decrease, b
 	delete_shape(&shape_checking);
 }
 
-static t_shape create_random_shape() {
+static void create_random_shape(t_shape *new_shape) {
 	const t_shape shape_list[SHAPE_LIST_AMOUNT] = {
 		{(char *[]){(char []){0,1,1}, (char []){1,1,0}, (char []){0,0,0}}, 3, 0, 0},
 		{(char *[]){(char []){1,1,0}, (char []){0,1,1}, (char []){0,0,0}}, 3, 0, 0},
@@ -101,11 +101,10 @@ static t_shape create_random_shape() {
 		{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}},
 			4, 0, 0}
 	};
-	t_shape new_shape;
-	duplicate_shape(&shape_list[rand() % SHAPE_LIST_AMOUNT], &new_shape);
-	new_shape.col = rand() % (TABLE_COL - new_shape.side_length + 1);
-	new_shape.row = 0;
-	return new_shape;
+	;
+	duplicate_shape(&shape_list[rand() % SHAPE_LIST_AMOUNT], new_shape);
+	new_shape->col = rand() % (TABLE_COL - new_shape->side_length + 1);
+	new_shape->row = 0;
 }
 
 static int check_line_deletion(t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
