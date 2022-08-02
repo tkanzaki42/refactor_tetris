@@ -11,7 +11,7 @@
 static int has_to_update(const suseconds_t *timer, const t_game_info *gameinfo);
 static void set_timeout(int time);
 
-void start_game(t_game_info *gameinfo) {
+void prepare_game(t_game_info *gameinfo) {
     srand(time(0));
     initscr();
 	set_timeout(1);
