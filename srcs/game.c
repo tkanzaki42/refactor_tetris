@@ -15,14 +15,14 @@ void start_game(t_game_info *gameinfo) {
 }
 
 void play_game(t_game_info *gameinfo) {
-    int c;
 	suseconds_t timer = 400000;
 	int decrease = 1000;
 
 	print_table(gameinfo);
-	while(gameinfo->is_continue_game){
-		if ((c = getch()) != ERR)
-			update_key_input(c, gameinfo, &timer, &decrease);
+	while(gameinfo->is_continue_game) {
+		int key_input = getch();
+		if (key_input != ERR)
+			update_key_input(key_input, gameinfo, &timer, &decrease);
 		gettimeofday(&gameinfo->now, NULL);
 		if (has_to_update(&timer, gameinfo))
 			update_screen(gameinfo, &timer, &decrease);
