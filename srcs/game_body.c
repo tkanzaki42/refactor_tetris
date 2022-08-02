@@ -24,8 +24,10 @@ void play_game(t_game_info *gameinfo) {
 	print_table(gameinfo);
 	while (gameinfo->is_continue_game) {
 		int key_input = getch();
-		if (key_input != ERR)
+		if (key_input != ERR) {
 			accept_key_input(key_input, gameinfo, &time);
+			print_table(gameinfo);
+		}
 		if (has_to_update(gameinfo, &time))
 			update_screen(gameinfo, &time);
 	}

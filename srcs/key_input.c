@@ -35,5 +35,4 @@ void accept_key_input(
 			break;
 	}
 	delete_shape(&shape_checking);
-	print_table(gameinfo);
 }
