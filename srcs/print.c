@@ -1,14 +1,5 @@
-#include "pt.h"
-
-void copy_shape_on_buffer(t_game_info *gameinfo, char Buffer[TABLE_ROW][TABLE_COL]) {
-	for(int i = 0; i < gameinfo->current_shape.side_length; ++i){
-		for(int j = 0; j < gameinfo->current_shape.side_length; ++j){
-			if(gameinfo->current_shape.table_shape[i][j])
-				Buffer[gameinfo->current_shape.row + i][gameinfo->current_shape.col + j]
-					= gameinfo->current_shape.table_shape[i][j];
-		}
-	}
-}
+#include "print.h"
+#include "shape.h"
 
 void print_table(t_game_info *gameinfo) {
 	char Buffer[TABLE_ROW][TABLE_COL] = {0};
@@ -25,4 +16,15 @@ void print_table(t_game_info *gameinfo) {
 		printw("\n");
 	}
 	printw("\nScore: %d\n", gameinfo->score);
+}
+
+void print_gameend_screen(t_game_info *gameinfo) {
+	for(int i = 0; i < TABLE_ROW; ++i){
+		for(int j = 0; j < TABLE_COL; ++j){
+			printf("%c ", gameinfo->table_game[i][j] ? '#': '.');
+		}
+		printf("\n");
+	}
+	printf("\nGame over!\n");
+	printf("\nScore: %d\n", gameinfo->score);
 }

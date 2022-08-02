@@ -4,14 +4,12 @@ CFLAGS		= -Wall -Wextra -Werror
 INCLUDE		= -I./includes
 SRC_DIR		= srcs
 SRCS		= \
+				$(SRC_DIR)/game.c \
+				$(SRC_DIR)/init.c \
+				$(SRC_DIR)/print.c \
+				$(SRC_DIR)/shape.c \
 				$(SRC_DIR)/tetris.c \
-				$(SRC_DIR)/hastoupdate.c \
-				$(SRC_DIR)/settimeout.c \
-				$(SRC_DIR)/cs.c \
-				$(SRC_DIR)/cp.c \
-				$(SRC_DIR)/ds.c \
-				$(SRC_DIR)/pt.c \
-				$(SRC_DIR)/rs.c
+				$(SRC_DIR)/update.c
 OBJS		= $(SRCS:.c=.o)
 DBGFLAG		= -g -fsanitize=address
 

@@ -1,12 +1,12 @@
 #ifndef TETRIS_H
 # define TETRIS_H
 
-#include <stdio.h>
-#include <stdlib.h>
+# include <stdio.h>
+# include <stdlib.h>
 # include <stdbool.h>
-#include <time.h>
-#include <sys/time.h>
-#include <ncurses.h>
+# include <time.h>
+# include <sys/time.h>
+# include <ncurses.h>
 
 # define TABLE_ROW 20
 # define TABLE_COL 15
@@ -28,8 +28,7 @@ typedef struct {
 	t_shape	current_shape;
 	int		score;
 	bool	is_continue_game;
+	struct timeval before_now, now;
 } t_game_info;
-
-struct timeval before_now, now;
 
 #endif
