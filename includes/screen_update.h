@@ -3,7 +3,7 @@
 
 # include "tetris.h"
 
-int has_to_update(const t_game_info *gameinfo, t_time *time);
+bool has_to_update(const t_game_info *gameinfo, t_time *time);
 void update_screen(t_game_info *gameinfo, t_time *time);
 
 #endif

@@ -4,7 +4,7 @@
 
 #define USEC_PER_SEC 1000000
 
-int has_to_update(const t_game_info *gameinfo, t_time *time) {
+bool has_to_update(const t_game_info *gameinfo, t_time *time) {
 	struct timeval	current_time_timeval;
 	gettimeofday(&current_time_timeval, NULL);
 	suseconds_t current_time
