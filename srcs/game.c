@@ -26,7 +26,6 @@ void play_game(t_game_info *gameinfo) {
 		gettimeofday(&gameinfo->now, NULL);
 		if (has_to_update(&timer, gameinfo))
 			update_screen(gameinfo, &timer, &decrease);
-		gettimeofday(&gameinfo->before_now, NULL);
 	}
 }
 
