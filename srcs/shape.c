@@ -45,12 +45,12 @@ void duplicate_shape(const t_shape *shape, t_shape *dup) {
 void replace_shape(t_game_info *gameinfo) {
 	delete_shape(&gameinfo->current_shape);
 	create_random_shape(&gameinfo->current_shape);
-	if(!check_puttable_shape(&gameinfo->current_shape, gameinfo->table_game)) {
+	if(!check_shape_puttable(&gameinfo->current_shape, gameinfo->table_game)) {
 		gameinfo->is_continue_game = false;
 	}
 }
 
-bool check_puttable_shape(const t_shape *shape, const char table[TABLE_ROW][TABLE_COL]) {
+bool check_shape_puttable(const t_shape *shape, const char table[TABLE_ROW][TABLE_COL]) {
 	for (int i = 0; i < shape->side_length; ++i) {
 		for (int j = 0; j < shape->side_length; ++j){
 			if (!shape->table_shape[i][j])
@@ -78,7 +78,7 @@ void move_shape_down(t_game_info *gameinfo, suseconds_t *timer, int *decrease, b
 	t_shape shape_checking;
 	duplicate_shape(&gameinfo->current_shape, &shape_checking);
 	shape_checking.row++;
-	if (check_puttable_shape(&shape_checking, gameinfo->table_game))
+	if (check_shape_puttable(&shape_checking, gameinfo->table_game))
 		gameinfo->current_shape.row++;
 	else {
 		copy_shape_to_table(&gameinfo->current_shape, gameinfo->table_game);
