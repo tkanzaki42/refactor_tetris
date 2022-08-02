@@ -9,12 +9,11 @@
 #define USEC_PER_SEC 1000000
 
 static int has_to_update(const suseconds_t *timer, const t_game_info *gameinfo);
-static void set_timeout(int time);
 
 void prepare_game(t_game_info *gameinfo) {
     srand(time(0));
     initscr();
-	set_timeout(1);
+	timeout(1);
 	init_gameinfo_struct(gameinfo);
 }
 
@@ -48,8 +47,4 @@ static int has_to_update(const suseconds_t *timer, const t_game_info *gameinfo) 
 		= gameinfo->last_update_time.tv_sec * USEC_PER_SEC + gameinfo->last_update_time.tv_usec;
 
 	return ((current_time - last_update_time) > *timer);
-}
-
-static void set_timeout(int time) {
-	timeout(time);
 }
