@@ -24,11 +24,11 @@ typedef struct {
 } t_shape;
 
 typedef struct {
-	char	table_game[TABLE_ROW][TABLE_COL];
-	t_shape	current_shape;
-	int		score;
-	bool	is_continue_game;
-	struct timeval before_now, now;
+	char			table_game[TABLE_ROW][TABLE_COL];
+	t_shape			current_shape;
+	int				score;
+	bool			is_continue_game;
+	struct timeval	last_update_time;
 } t_game_info;
 
 #endif

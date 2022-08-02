@@ -2,15 +2,15 @@
 #include "shape.h"
 
 void init_gameinfo_struct(t_game_info *gameinfo) {
-	gameinfo->score = 0;
 	for(int i = 0; i < TABLE_ROW; ++i)
 		for(int j = 0; j < TABLE_COL; ++j)
 			gameinfo->table_game[i][j] = 0;
-	gettimeofday(&gameinfo->before_now, NULL);
+	gameinfo->score = 0;
 	gameinfo->is_continue_game = true;
+	gettimeofday(&gameinfo->last_update_time, NULL);
+	gameinfo->current_shape.table_shape = NULL;
 	gameinfo->current_shape.side_length = 0;
 	gameinfo->current_shape.row = 0;
 	gameinfo->current_shape.col = 0;
-	gameinfo->current_shape.table_shape = NULL;
 	replace_shape(gameinfo);
 }

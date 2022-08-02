@@ -15,18 +15,16 @@ void start_game(t_game_info *gameinfo) {
 }
 
 void play_game(t_game_info *gameinfo) {
-    int c;
 	suseconds_t timer = 400000;
 	int decrease = 1000;
 
 	print_table(gameinfo);
-	while(gameinfo->is_continue_game){
-		if ((c = getch()) != ERR)
-			update_key_input(c, gameinfo, &timer, &decrease);
-		gettimeofday(&gameinfo->now, NULL);
+	while(gameinfo->is_continue_game) {
+		int key_input = getch();
+		if (key_input != ERR)
+			update_key_input(key_input, gameinfo, &timer, &decrease);
 		if (has_to_update(&timer, gameinfo))
 			update_screen(gameinfo, &timer, &decrease);
-		gettimeofday(&gameinfo->before_now, NULL);
 	}
 }
 
@@ -36,15 +34,16 @@ void finalize_game(t_game_info *gameinfo) {
 	print_gameend_screen(gameinfo);
 }
 
-static int has_to_update(const suseconds_t *timer, const t_game_info *gameinfo){
-	return
-		(
-			(suseconds_t)(gameinfo->now.tv_sec*1000000
-				+ gameinfo->now.tv_usec)
-			-((suseconds_t)gameinfo->before_now.tv_sec*1000000
-				+ gameinfo->before_now.tv_usec)
-		)
-		> *timer;
+static int has_to_update(const suseconds_t *timer, const t_game_info *gameinfo) {
+	struct timeval	current_time_timeval;
+	gettimeofday(&current_time_timeval, NULL);
+	suseconds_t current_time
+		= current_time_timeval.tv_sec * 1000000 + current_time_timeval.tv_usec;
+
+	suseconds_t last_update_time
+		= gameinfo->last_update_time.tv_sec * 1000000 + gameinfo->last_update_time.tv_usec;
+
+	return ((current_time - last_update_time) > *timer);
 }
 
 static void set_timeout(int time) {
