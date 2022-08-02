@@ -35,15 +35,13 @@ void finalize_game(t_game_info *gameinfo) {
 	print_gameend_screen(gameinfo);
 }
 
-static int has_to_update(const suseconds_t *timer, const t_game_info *gameinfo){
-	return
-		(
-			(suseconds_t)(gameinfo->now.tv_sec*1000000
-				+ gameinfo->now.tv_usec)
-			-((suseconds_t)gameinfo->before_now.tv_sec*1000000
-				+ gameinfo->before_now.tv_usec)
-		)
-		> *timer;
+static int has_to_update(const suseconds_t *timer, const t_game_info *gameinfo) {
+	suseconds_t current_time
+		= gameinfo->now.tv_sec * 1000000 + gameinfo->now.tv_usec;
+	suseconds_t previous_update_time
+		= gameinfo->before_now.tv_sec * 1000000 + gameinfo->before_now.tv_usec;
+
+	return ((current_time - previous_update_time) > *timer);
 }
 
 static void set_timeout(int time) {
