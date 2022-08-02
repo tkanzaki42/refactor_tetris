@@ -6,7 +6,7 @@
 #define PRINTOBJ_EMPTY '.'
 
 void print_table(const t_game_info *gameinfo) {
-	char table_shape[TABLE_ROW][TABLE_COL] = {0};
+	char table_shape[TABLE_ROW][TABLE_COL] = {};
 
 	copy_shape_to_table(&gameinfo->current_shape, table_shape);
 	clear();
