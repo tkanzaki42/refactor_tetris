@@ -9,8 +9,8 @@
 #define DECREASE_INIT_VALUE 1000
 
 void prepare_game(t_game_info *gameinfo) {
-    srand(time(0));
-    initscr();
+	srand(time(0));
+	initscr();
 	timeout(1);
 	init_gameinfo_struct(gameinfo);
 }
