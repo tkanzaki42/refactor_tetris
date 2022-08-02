@@ -16,16 +16,16 @@ void delete_shape(t_shape *shape) {
 	shape->table_shape = NULL;
 }
 
-void duplicate_shape(const t_shape *shape, t_shape *dup) {
-	dup->table_shape = NULL;
-	dup->side_length = shape->side_length;
-	dup->row = shape->row;
-	dup->col = shape->col;
-	dup->table_shape = (char**)malloc(dup->side_length * sizeof(char*));
-	for (int i = 0; i < dup->side_length; ++i) {
-		dup->table_shape[i] = (char*)malloc(dup->side_length * sizeof(char));
-		for (int j = 0; j < dup->side_length; ++j) {
-			dup->table_shape[i][j] = shape->table_shape[i][j];
+void duplicate_shape(const t_shape *shape, t_shape *duplicated) {
+	duplicated->table_shape = NULL;
+	duplicated->side_length = shape->side_length;
+	duplicated->row = shape->row;
+	duplicated->col = shape->col;
+	duplicated->table_shape = (char**)malloc(duplicated->side_length * sizeof(char*));
+	for (int i = 0; i < duplicated->side_length; ++i) {
+		duplicated->table_shape[i] = (char*)malloc(duplicated->side_length * sizeof(char));
+		for (int j = 0; j < duplicated->side_length; ++j) {
+			duplicated->table_shape[i][j] = shape->table_shape[i][j];
 		}
 	}
 }
