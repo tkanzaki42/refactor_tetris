@@ -1,12 +1,14 @@
 #include "print.h"
 #include "shape.h"
 
+#define TITLE_OFFSET TABLE_COL - 9
+
 void print_table(const t_game_info *gameinfo) {
 	char table_shape[TABLE_ROW][TABLE_COL] = {0};
 
 	copy_shape_to_table(&gameinfo->current_shape, table_shape);
 	clear();
-	for (int i = 0; i < TABLE_COL - 9; ++i)
+	for (int i = 0; i < TITLE_OFFSET; ++i)
 		printw(" ");
 	printw("42 Tetris\n");
 	for (int i = 0; i < TABLE_ROW; ++i) {
