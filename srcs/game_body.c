@@ -25,7 +25,7 @@ void play_game(t_game_info *gameinfo) {
 	while (gameinfo->is_continue_game) {
 		int key_input = getch();
 		if (key_input != ERR)
-			update_key_input(key_input, gameinfo, &time);
+			accept_key_input(key_input, gameinfo, &time);
 		if (has_to_update(gameinfo, &time))
 			update_screen(gameinfo, &time);
 	}

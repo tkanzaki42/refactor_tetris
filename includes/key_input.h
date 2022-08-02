@@ -3,7 +3,7 @@
 
 # include "tetris.h"
 
-void update_key_input(
+void accept_key_input(
 		int key_input, t_game_info *gameinfo, t_time *time);
 
 #endif
