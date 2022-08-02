@@ -7,7 +7,7 @@ void init_gameinfo_struct(t_game_info *gameinfo) {
 			gameinfo->table_game[i][j] = 0;
 	gameinfo->score = 0;
 	gameinfo->is_continue_game = true;
-	gettimeofday(&gameinfo->before_now, NULL);
+	gettimeofday(&gameinfo->last_update_time, NULL);
 	gameinfo->current_shape.table_shape = NULL;
 	gameinfo->current_shape.side_length = 0;
 	gameinfo->current_shape.row = 0;
