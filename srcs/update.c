@@ -2,29 +2,31 @@
 #include "shape.h"
 #include "print.h"
 
-void update_key_input(int c, t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
-	t_shape temp = duplicate_shape(gameinfo->current_shape);
-	switch(c){
+void update_key_input(
+		int key_input, t_game_info *gameinfo, suseconds_t *timer, int *decrease) {
+	t_shape shape_checking = duplicate_shape(gameinfo->current_shape);
+
+	switch (key_input) {
 		case INPUTKEY_DOWN:
 			move_shape_down(gameinfo, timer, decrease, true);
 			break;
 		case INPUTKEY_RIGHT:
-			temp.col++;
-			if(check_puttable_shape(temp, gameinfo->table_game))
+			shape_checking.col++;
+			if(check_puttable_shape(shape_checking, gameinfo->table_game))
 				gameinfo->current_shape.col++;
 			break;
 		case INPUTKEY_LEFT:
-			temp.col--;
-			if(check_puttable_shape(temp, gameinfo->table_game))
+			shape_checking.col--;
+			if(check_puttable_shape(shape_checking, gameinfo->table_game))
 				gameinfo->current_shape.col--;
 			break;
 		case INPUTKEY_ROTATE:
-			rotate_shape(temp);
-			if(check_puttable_shape(temp, gameinfo->table_game))
+			rotate_shape(shape_checking);
+			if(check_puttable_shape(shape_checking, gameinfo->table_game))
 				rotate_shape(gameinfo->current_shape);
 			break;
 	}
-	delete_shape(temp);
+	delete_shape(shape_checking);
 	print_table(gameinfo);
 }
 
