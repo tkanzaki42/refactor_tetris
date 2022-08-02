@@ -1,5 +1,5 @@
-#include "print.h"
-#include "shape.h"
+#include "screen_print.h"
+#include "shape_move_copy.h"
 
 #define TITLE_OFFSET TABLE_COL - 9
 

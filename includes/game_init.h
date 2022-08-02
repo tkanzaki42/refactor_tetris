@@ -1,5 +1,5 @@
-#ifndef INIT_H
-# define INIT_H
+#ifndef GAME_INIT_H
+# define GAME_INIT_H
 
 #include "tetris.h"
 

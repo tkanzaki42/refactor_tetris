@@ -1,5 +1,5 @@
-#ifndef PRINT_H
-# define PRINT_H
+#ifndef SCREEN_PRINT_H
+# define SCREEN_PRINT_H
 
 #include "tetris.h"
 

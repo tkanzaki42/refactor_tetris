@@ -1,5 +1,5 @@
-#include "init.h"
-#include "shape.h"
+#include "game_init.h"
+#include "shape_create_delete.h"
 
 void init_gameinfo_struct(t_game_info *gameinfo) {
 	for(int i = 0; i < TABLE_ROW; ++i)
