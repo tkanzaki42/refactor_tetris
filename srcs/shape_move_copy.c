@@ -8,9 +8,10 @@ static int check_line_deletion(t_game_info *gameinfo, suseconds_t *timer, int *d
 
 void rotate_shape(t_shape *shape) {
 	t_shape shape_original;
+
 	duplicate_shape(shape, &shape_original);
 	for (int i = 0; i < shape->side_length ; ++i) {
-		for (int j = 0, k = shape->side_length - 1; j < shape->side_length; ++j, --k){
+		for (int j = 0, k = shape->side_length - 1; j < shape->side_length; ++j, --k) {
 			shape->table_shape[i][j] = shape_original.table_shape[k][i];
 		}
 	}
@@ -19,6 +20,7 @@ void rotate_shape(t_shape *shape) {
 
 void move_shape_down(t_game_info *gameinfo, suseconds_t *timer, int *decrease, bool add_bonus) {
 	t_shape shape_checking;
+
 	duplicate_shape(&gameinfo->current_shape, &shape_checking);
 	shape_checking.row++;
 	if (check_shape_puttable(&shape_checking, gameinfo->table_game))
@@ -43,10 +45,10 @@ static int check_line_deletion(t_game_info *gameinfo, suseconds_t *timer, int *d
 		}
 		if (filled_cell_count_in_line == TABLE_COL) {
 			delete_line_count++;
-			for(int k = i; k >= 1; --k)
-				for(int l = 0; l < TABLE_COL; ++l)
+			for (int k = i; k >= 1; --k)
+				for (int l = 0; l < TABLE_COL; ++l)
 					gameinfo->table_game[k][l] = gameinfo->table_game[k - 1][l];
-			for(int l = 0; l < TABLE_COL; ++l)
+			for (int l = 0; l < TABLE_COL; ++l)
 				gameinfo->table_game[0][l] = 0;
 			*timer -= (*decrease)--;
 		}
@@ -57,7 +59,7 @@ static int check_line_deletion(t_game_info *gameinfo, suseconds_t *timer, int *d
 void copy_shape_to_table(const t_shape *shape, char table[TABLE_ROW][TABLE_COL]) {
 	for (int i = 0; i < shape->side_length; ++i) {
 		for (int j = 0; j < shape->side_length; ++j) {
-			if(shape->table_shape[i][j])
+			if (shape->table_shape[i][j])
 				table[shape->row + i][shape->col + j] = shape->table_shape[i][j];
 		}
 	}

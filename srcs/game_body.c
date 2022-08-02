@@ -9,8 +9,8 @@
 #define DECREASE_INIT_VALUE 1000
 
 void prepare_game(t_game_info *gameinfo) {
-    srand(time(0));
-    initscr();
+	srand(time(0));
+	initscr();
 	timeout(1);
 	init_gameinfo_struct(gameinfo);
 }
@@ -20,7 +20,7 @@ void play_game(t_game_info *gameinfo) {
 	int decrease = DECREASE_INIT_VALUE;
 
 	print_table(gameinfo);
-	while(gameinfo->is_continue_game) {
+	while (gameinfo->is_continue_game) {
 		int key_input = getch();
 		if (key_input != ERR)
 			update_key_input(key_input, gameinfo, &timer, &decrease);

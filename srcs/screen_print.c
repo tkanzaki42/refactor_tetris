@@ -21,8 +21,8 @@ void print_table(const t_game_info *gameinfo) {
 }
 
 void print_gameend_screen(const t_game_info *gameinfo) {
-	for(int i = 0; i < TABLE_ROW; ++i) {
-		for(int j = 0; j < TABLE_COL; ++j) {
+	for (int i = 0; i < TABLE_ROW; ++i) {
+		for (int j = 0; j < TABLE_COL; ++j) {
 			printf("%c ", gameinfo->table_game[i][j] ? '#' : '.');
 		}
 		printf("\n");
